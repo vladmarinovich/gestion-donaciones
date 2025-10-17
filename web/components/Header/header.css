@@ -1,0 +1,45 @@
+/* web/components/Header/header.css */
+
+.sp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 var(--sp-space-3);
+  background: white;
+  border-bottom: 1px solid var(--sp-muted);
+}
+
+.sp-header__title {
+  font-size: var(--sp-font-size-lg);
+  font-weight: 600;
+  color: var(--sp-ink);
+  margin: 0;
+}
+
+.sp-header__user {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-space-2);
+}
+
+.sp-header__name {
+  font-weight: 500;
+}
+
+.sp-header__logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--sp-radius-sm);
+  background: var(--sp-muted);
+  color: var(--sp-ink);
+  transition: background 0.2s;
+}
+
+.sp-header__logout:hover {
+  background: var(--sp-primary);
+  color: white;
+}

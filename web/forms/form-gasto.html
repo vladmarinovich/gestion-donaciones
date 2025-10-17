@@ -1,0 +1,78 @@
+<!-- web/forms/form-gasto.html -->
+<form id="form-gasto" class="sp-form" novalidate>
+  <!-- ID Gasto -->
+  <div class="sp-form-group">
+    <label for="id_gasto">ID Gasto</label>
+    <input type="text" id="id_gasto" name="id_gasto" readonly placeholder="Auto-generado" />
+  </div>
+
+  <!-- Caso asociado -->
+  <div class="sp-form-group">
+    <label for="id_caso">Caso asociado *</label>
+    <select id="id_caso" name="id_caso" required>
+      <option value="">Seleccionar caso</option>
+      <!-- Se llenará dinámicamente con los casos existentes -->
+    </select>
+  </div>
+
+  <!-- Proveedor -->
+  <div class="sp-form-group">
+    <label for="id_proveedor">Proveedor *</label>
+    <select id="id_proveedor" name="id_proveedor" required>
+      <option value="">Seleccionar proveedor</option>
+      <!-- Se llenará dinámicamente -->
+    </select>
+  </div>
+
+  <!-- Nombre del gasto -->
+  <div class="sp-form-group">
+    <label for="nombre_gasto">Nombre del gasto *</label>
+    <input type="text" id="nombre_gasto" name="nombre_gasto" required />
+  </div>
+
+  <!-- Fecha de pago -->
+  <div class="sp-form-group">
+    <label for="fecha_pago">Fecha de pago *</label>
+    <input type="date" id="fecha_pago" name="fecha_pago" required />
+  </div>
+
+  <!-- Medio de pago -->
+  <div class="sp-form-group">
+    <label for="medio_pago">Medio de pago *</label>
+    <select id="medio_pago" name="medio_pago" required>
+      <option value="">Seleccionar</option>
+      <option value="efectivo">Efectivo</option>
+      <option value="nequi">Nequi</option>
+      <option value="transferencia">Transferencia</option>
+      <option value="tarjeta">Tarjeta</option>
+    </select>
+  </div>
+
+  <!-- Monto -->
+  <div class="sp-form-group">
+    <label for="monto">Monto (COP) *</label>
+    <input type="number" id="monto" name="monto" min="0.01" step="0.01" required placeholder="0.00" />
+  </div>
+
+  <!-- Estado -->
+  <div class="sp-form-group">
+    <label for="estado">Estado *</label>
+    <select id="estado" name="estado" required>
+      <option value="">Seleccionar</option>
+      <option value="pagado">Pagado</option>
+      <option value="pendiente">Pendiente</option>
+    </select>
+  </div>
+
+  <!-- Comprobante -->
+  <div class="sp-form-group">
+    <label for="comprobante_url">Comprobante (URL)</label>
+    <input type="url" id="comprobante_url" name="comprobante_url" placeholder="https://drive.google.com/..." pattern="https?://.+" />
+  </div>
+
+  <!-- Notas -->
+  <div class="sp-form-group">
+    <label for="notas">Notas</label>
+    <textarea id="notas" name="notas" rows="3"></textarea>
+  </div>
+</form>

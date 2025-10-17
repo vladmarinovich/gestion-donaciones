@@ -1,0 +1,36 @@
+/* =====================================
+   🎨 Salvando Patitas - Design Tokens
+   ===================================== */
+
+:root {
+  /* 🎨 Paleta */
+  --sp-primary: #2d7ff9;
+  --sp-muted:   #e3e6eb;
+  --sp-bg:      #fafafa;
+  --sp-ink:     #1c1c1c;
+  --sp-success: #3ddc97;
+
+  /* 🧱 Escala de espaciado (8px scale) */
+  --sp-space-1: 4px;
+  --sp-space-2: 8px;
+  --sp-space-3: 16px;
+  --sp-space-4: 24px;
+  --sp-space-5: 32px;
+  --sp-space-6: 48px;
+
+  /* 🔲 Radios */
+  --sp-radius-sm: 4px;
+  --sp-radius-md: 8px;
+  --sp-radius-lg: 16px;
+
+  /* 🌫️ Sombras */
+  --sp-shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --sp-shadow-md: 0 2px 6px rgba(0,0,0,0.12);
+  --sp-shadow-lg: 0 4px 12px rgba(0,0,0,0.16);
+
+  /* 🔤 Tipografía */
+  --sp-font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+  --sp-font-size-base: 14px;
+  --sp-font-size-lg: 18px;
+  --sp-font-size-sm: 12px;
+}

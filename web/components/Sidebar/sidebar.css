@@ -1,0 +1,31 @@
+.sp-sidebar__user {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.sp-sidebar__avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.sp-sidebar__userinfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.sp-sidebar__username {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #222;
+}
+
+.sp-sidebar__email {
+  font-size: 0.8rem;
+  color: #666;
+}

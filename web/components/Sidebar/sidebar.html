@@ -1,0 +1,33 @@
+<!-- web/components/Sidebar/sidebar.html -->
+<template id="sp-sidebar-template">
+  <nav class="sp-sidebar" aria-label="Navegación principal">
+    <!-- 🔹 Encabezado del Sidebar -->
+    <div class="sp-sidebar__logo">
+      <svg width="28" height="28" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="14" cy="14" r="10"></circle>
+        <path d="M14 8v8l4 2"></path>
+      </svg>
+      <span>CRM Fundación Salvando Patitas 🐾</span>
+    </div>
+
+    <!-- 🔹 Información de usuario -->
+    <div class="sp-sidebar__user">
+      <img src="https://ui-avatars.com/api/?name=Usuario+Demo&background=cccccc&color=000000" alt="Avatar de usuario" class="sp-sidebar__avatar" />
+      <div class="sp-sidebar__userinfo">
+        <span class="sp-sidebar__username">Usuario Demo</span>
+        <span class="sp-sidebar__email">usuario@salvandopatitas.org</span>
+      </div>
+    </div>
+
+    <!-- 🔹 Menú principal -->
+    <ul class="sp-sidebar__menu">
+      <li><a href="#/dashboard" data-route="#/dashboard" class="sp-sidebar__link sp-sidebar__link--active">Dashboard</a></li>
+      <li><a href="#/donaciones" data-route="#/donaciones" class="sp-sidebar__link">Donaciones</a></li>
+      <li><a href="#/donantes" data-route="#/donantes" class="sp-sidebar__link">Donantes</a></li>
+      <li><a href="#/gastos" data-route="#/gastos" class="sp-sidebar__link">Gastos</a></li>
+      <li><a href="#/hogares" data-route="#/hogares" class="sp-sidebar__link">Hogares de Paso</a></li>
+      <li><a href="#/proveedores" data-route="#/proveedores" class="sp-sidebar__link">Proveedores</a></li>
+      <li><a href="#/config" data-route="#/config" class="sp-sidebar__link">Configuración</a></li>
+    </ul>
+  </nav>
+</template>

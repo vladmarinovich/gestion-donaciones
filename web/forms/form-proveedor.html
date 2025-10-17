@@ -1,0 +1,62 @@
+<!-- web/forms/form-proveedor.html -->
+<form id="form-proveedor" class="sp-form" novalidate>
+  <!-- ID Proveedor -->
+  <div class="sp-form-group">
+    <label for="id_proveedor">ID Proveedor</label>
+    <input type="text" id="id_proveedor" name="id_proveedor" readonly placeholder="Auto-generado" />
+  </div>
+
+  <!-- Nombre -->
+  <div class="sp-form-group">
+    <label for="nombre_proveedor">Nombre del proveedor *</label>
+    <input type="text" id="nombre_proveedor" name="nombre_proveedor" required />
+  </div>
+
+  <!-- Tipo de proveedor -->
+  <div class="sp-form-group">
+    <label for="tipo_proveedor">Tipo de proveedor *</label>
+    <select id="tipo_proveedor" name="tipo_proveedor" required>
+      <option value="">Seleccionar</option>
+      <option value="veterinaria">Veterinaria</option>
+      <option value="tienda">Tienda</option>
+      <option value="laboratorio">Laboratorio</option>
+      <option value="transporte">Transporte</option>
+    </select>
+  </div>
+
+  <!-- NIT -->
+  <div class="sp-form-group">
+    <label for="nit">NIT</label>
+    <input type="text" id="nit" name="nit" />
+  </div>
+
+  <!-- Contacto -->
+  <div class="sp-form-group">
+    <label for="contacto">Persona de contacto</label>
+    <input type="text" id="contacto" name="contacto" />
+  </div>
+
+  <!-- Teléfono -->
+  <div class="sp-form-group">
+    <label for="telefono">Teléfono</label>
+    <input type="tel" id="telefono" name="telefono" placeholder="+57 300 123 4567" />
+  </div>
+
+  <!-- Correo -->
+  <div class="sp-form-group">
+    <label for="correo">Correo electrónico</label>
+    <input type="email" id="correo" name="correo" placeholder="ejemplo@correo.com" />
+  </div>
+
+  <!-- Ciudad -->
+  <div class="sp-form-group">
+    <label for="ciudad">Ciudad</label>
+    <input type="text" id="ciudad" name="ciudad" />
+  </div>
+
+  <!-- Notas -->
+  <div class="sp-form-group">
+    <label for="notas">Notas</label>
+    <textarea id="notas" name="notas" rows="3"></textarea>
+  </div>
+</form>

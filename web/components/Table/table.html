@@ -1,0 +1,26 @@
+<!-- web/components/Table/table.html -->
+<template id="sp-table-template">
+  <div class="sp-table-wrapper">
+    <div class="sp-table-header">
+      <input type="text" class="sp-table-search" placeholder="Buscar..." aria-label="Buscar" />
+    </div>
+
+    <table class="sp-table" role="grid">
+      <thead>
+        <tr class="sp-table-head"></tr>
+      </thead>
+      <tbody class="sp-table-body">
+        <tr><td colspan="99" class="sp-table-empty">No hay registros</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sp-table-footer">
+      <span class="sp-table-count">Mostrando 0 registros</span>
+      <div class="sp-table-pagination">
+        <button class="sp-page-prev" aria-label="Anterior">‹</button>
+        <span class="sp-page-info">1 / 1</span>
+        <button class="sp-page-next" aria-label="Siguiente">›</button>
+      </div>
+    </div>
+  </div>
+</template>

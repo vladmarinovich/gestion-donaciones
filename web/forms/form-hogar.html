@@ -1,0 +1,85 @@
+<!-- web/forms/form-hogar.html -->
+<form id="form-hogar" class="sp-form" novalidate>
+  <!-- ID Hogar -->
+  <div class="sp-form-group">
+    <label for="id_hogar">ID Hogar</label>
+    <input type="text" id="id_hogar" name="id_hogar" readonly placeholder="Auto-generado" />
+  </div>
+
+  <!-- Nombre -->
+  <div class="sp-form-group">
+    <label for="nombre_hogar">Nombre del hogar *</label>
+    <input type="text" id="nombre_hogar" name="nombre_hogar" required />
+  </div>
+
+  <!-- Tipo de hogar -->
+  <div class="sp-form-group">
+    <label for="tipo_hogar">Tipo de hogar *</label>
+    <select id="tipo_hogar" name="tipo_hogar" required>
+      <option value="">Seleccionar</option>
+      <option value="temporal">Temporal</option>
+      <option value="permanente">Permanente</option>
+    </select>
+  </div>
+
+  <!-- Contacto -->
+  <div class="sp-form-group">
+    <label for="contacto">Persona de contacto</label>
+    <input type="text" id="contacto" name="contacto" />
+  </div>
+
+  <!-- Teléfono -->
+  <div class="sp-form-group">
+    <label for="telefono">Teléfono</label>
+    <input type="tel" id="telefono" name="telefono" placeholder="+57 300 123 4567" />
+  </div>
+
+  <!-- Correo -->
+  <div class="sp-form-group">
+    <label for="correo">Correo electrónico</label>
+    <input type="email" id="correo" name="correo" placeholder="ejemplo@correo.com" />
+  </div>
+
+  <!-- Ciudad -->
+  <div class="sp-form-group">
+    <label for="ciudad">Ciudad</label>
+    <input type="text" id="ciudad" name="ciudad" />
+  </div>
+
+  <!-- País -->
+  <div class="sp-form-group">
+    <label for="pais">País</label>
+    <input type="text" id="pais" name="pais" value="Colombia" />
+  </div>
+
+  <!-- Cupo máximo -->
+  <div class="sp-form-group">
+    <label for="cupo_maximo">Cupo máximo</label>
+    <input type="number" id="cupo_maximo" name="cupo_maximo" min="0" step="1" placeholder="0" />
+  </div>
+
+  <!-- Tarifa diaria -->
+  <div class="sp-form-group">
+    <label for="tarifa_diaria">Tarifa diaria (COP)</label>
+    <input type="number" id="tarifa_diaria" name="tarifa_diaria" min="0" step="0.01" placeholder="0.00" />
+  </div>
+
+  <!-- Desempeño -->
+  <div class="sp-form-group">
+    <label for="desempeno">Desempeño</label>
+    <select id="desempeno" name="desempeno">
+      <option value="">Seleccionar</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+  </div>
+
+  <!-- Notas -->
+  <div class="sp-form-group">
+    <label for="notas">Notas</label>
+    <textarea id="notas" name="notas" rows="3"></textarea>
+  </div>
+</form>

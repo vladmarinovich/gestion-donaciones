@@ -1,0 +1,49 @@
+# ==========================================
+# 🔥 FIREBASE CONFIG Y LOGS
+# ==========================================
+.firebase/
+.firebaserc
+firebase-debug.log
+
+# Ignora configuración sensible (contiene claves)
+web/js/firebase-config.js
+
+# Mantén estos (necesarios para deploy o restaurar)
+# firebase.json
+# firestore.indexes.json
+
+# Ignora reglas si contienen datos reales
+firestore.rules
+
+# ==========================================
+# ⚙️ DEPENDENCIAS Y BUILD CACHE
+# ==========================================
+node_modules/
+package-lock.json
+dist/
+build/
+.cache/
+coverage/
+
+# ==========================================
+# 💻 SISTEMA Y EDITORES
+# ==========================================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+
+# ==========================================
+# ☁️ CLOUD STORAGE (iCloud, Google Drive)
+# ==========================================
+*/Library/CloudStorage/
+*.icloud
+*.gdoc
+*.gsheet
+*.numbers
+*.pages

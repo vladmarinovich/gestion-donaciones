@@ -1,0 +1,90 @@
+<!-- web/forms/form-caso.html -->
+<form id="form-caso" class="sp-form" novalidate>
+  <!-- ID Caso -->
+  <div class="sp-form-group">
+    <label for="id_caso">ID Caso</label>
+    <input type="text" id="id_caso" name="id_caso" readonly placeholder="Auto-generado" />
+  </div>
+
+  <!-- Nombre del caso -->
+  <div class="sp-form-group">
+    <label for="nombre_caso">Nombre del caso *</label>
+    <input type="text" id="nombre_caso" name="nombre_caso" required />
+  </div>
+
+  <!-- Estado -->
+  <div class="sp-form-group">
+    <label for="estado">Estado *</label>
+    <select id="estado" name="estado" required>
+      <option value="">Seleccionar</option>
+      <option value="en_tratamiento">En tratamiento</option>
+      <option value="finalizado">Finalizado</option>
+      <option value="pendiente">Pendiente</option>
+    </select>
+  </div>
+
+  <!-- Fechas -->
+  <div class="sp-form-group">
+    <label for="fecha_ingreso">Fecha de ingreso *</label>
+    <input type="date" id="fecha_ingreso" name="fecha_ingreso" required />
+  </div>
+
+  <div class="sp-form-group">
+    <label for="fecha_salida">Fecha de salida</label>
+    <input type="date" id="fecha_salida" name="fecha_salida" />
+  </div>
+
+  <!-- Veterinaria asignada -->
+  <div class="sp-form-group">
+    <label for="veterinaria_asignada">Veterinaria asignada</label>
+    <select id="veterinaria_asignada" name="veterinaria_asignada">
+      <option value="">Seleccionar</option>
+      <!-- Se llenará dinámicamente con proveedores tipo "veterinaria" -->
+    </select>
+  </div>
+
+  <!-- Diagnóstico -->
+  <div class="sp-form-group">
+    <label for="diagnostico">Diagnóstico</label>
+    <textarea id="diagnostico" name="diagnostico" rows="3"></textarea>
+  </div>
+
+  <!-- Hogar de paso -->
+  <div class="sp-form-group">
+    <label for="id_hogar_de_paso">Hogar de paso</label>
+    <select id="id_hogar_de_paso" name="id_hogar_de_paso">
+      <option value="">Seleccionar</option>
+      <!-- Se llenará dinámicamente con hogares activos -->
+    </select>
+  </div>
+
+  <!-- Monto meta -->
+  <div class="sp-form-group">
+    <label for="monto_meta">Monto meta (COP) *</label>
+    <input type="number" id="monto_meta" name="monto_meta" min="0" step="0.01" required />
+  </div>
+
+  <!-- Archivo URL -->
+  <div class="sp-form-group">
+    <label for="archivo_url">Archivo / Carpeta Drive</label>
+    <input type="url" id="archivo_url" name="archivo_url" placeholder="https://drive.google.com/..." pattern="https?://.+" />
+  </div>
+
+  <!-- Monto recaudado -->
+  <div class="sp-form-group">
+    <label for="monto_recaudado">Monto recaudado</label>
+    <input type="number" id="monto_recaudado" name="monto_recaudado" readonly value="0" />
+  </div>
+
+  <!-- Gastos totales -->
+  <div class="sp-form-group">
+    <label for="gastos_totales">Gastos totales</label>
+    <input type="number" id="gastos_totales" name="gastos_totales" readonly value="0" />
+  </div>
+
+  <!-- Saldo restante -->
+  <div class="sp-form-group">
+    <label for="saldo_restante">Saldo restante</label>
+    <input type="number" id="saldo_restante" name="saldo_restante" readonly value="0" />
+  </div>
+</form>

@@ -1,0 +1,26 @@
+<!-- web/components/Modal/modal.html -->
+<template id="sp-modal-template">
+  <div class="sp-modal" role="dialog" aria-modal="true" aria-labelledby="sp-modal-title">
+    <div class="sp-modal__overlay" data-close="true"></div>
+    <div class="sp-modal__content" tabindex="-1">
+      <header class="sp-modal__header">
+        <h2 id="sp-modal-title" class="sp-modal__title">Título del modal</h2>
+        <button class="sp-modal__close" aria-label="Cerrar" data-close="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </header>
+
+      <div class="sp-modal__body">
+        <!-- Aquí se insertará dinámicamente el contenido -->
+      </div>
+
+      <footer class="sp-modal__footer">
+        <button type="button" class="sp-btn sp-btn--muted" data-close="true">Cancelar</button>
+        <button type="button" class="sp-btn sp-btn--primary" data-action="submit">Guardar</button>
+      </footer>
+    </div>
+  </div>
+</template>

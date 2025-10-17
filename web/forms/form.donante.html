@@ -1,0 +1,96 @@
+<!-- web/forms/form-donante.html -->
+<form id="form-donante" class="sp-form" novalidate>
+  <!-- ID Donante (solo lectura) -->
+  <div class="sp-form-group">
+    <label for="id_donante">ID Donante</label>
+    <input type="text" id="id_donante" name="id_donante" readonly placeholder="Auto-generado" />
+  </div>
+
+  <!-- Nombre -->
+  <div class="sp-form-group">
+    <label for="nombre_donante">Nombre del donante *</label>
+    <input type="text" id="nombre_donante" name="nombre_donante" required minlength="2" maxlength="100" />
+  </div>
+
+  <!-- Tipo de identificación -->
+  <div class="sp-form-group">
+    <label for="tipo_id">Tipo de ID</label>
+    <select id="tipo_id" name="tipo_id">
+      <option value="">Seleccionar</option>
+      <option value="CC">CC</option>
+      <option value="NIT">NIT</option>
+      <option value="CE">CE</option>
+      <option value="PAS">PAS</option>
+    </select>
+  </div>
+
+  <!-- Identificación -->
+  <div class="sp-form-group">
+    <label for="identificacion">Número de identificación</label>
+    <input type="text" id="identificacion" name="identificacion" />
+  </div>
+
+  <!-- Correo -->
+  <div class="sp-form-group">
+    <label for="correo">Correo electrónico</label>
+    <input type="email" id="correo" name="correo" placeholder="ejemplo@correo.com" />
+  </div>
+
+  <!-- Teléfono -->
+  <div class="sp-form-group">
+    <label for="telefono">Teléfono</label>
+    <input type="tel" id="telefono" name="telefono" placeholder="+57 300 123 4567" />
+  </div>
+
+  <!-- Ciudad -->
+  <div class="sp-form-group">
+    <label for="ciudad">Ciudad</label>
+    <input type="text" id="ciudad" name="ciudad" />
+  </div>
+
+  <!-- País -->
+  <div class="sp-form-group">
+    <label for="pais">País</label>
+    <input type="text" id="pais" name="pais" value="Colombia" />
+  </div>
+
+  <!-- Canal de origen -->
+  <div class="sp-form-group">
+    <label for="canal_origen">Canal de origen</label>
+    <select id="canal_origen" name="canal_origen">
+      <option value="">Seleccionar</option>
+      <option value="web">Web</option>
+      <option value="redes">Redes</option>
+      <option value="evento">Evento</option>
+      <option value="referido">Referido</option>
+      <option value="ads">Ads</option>
+    </select>
+  </div>
+
+  <!-- Tipo de donante -->
+  <fieldset class="sp-form-group">
+    <legend>Tipo de donante *</legend>
+    <label><input type="radio" name="tipo_donante" value="persona" required /> Persona</label>
+    <label><input type="radio" name="tipo_donante" value="empresa" required /> Empresa</label>
+  </fieldset>
+
+  <!-- Consentimiento -->
+  <div class="sp-form-group">
+    <label>
+      <input type="checkbox" id="consentimiento" name="consentimiento" required />
+      Acepto el uso de mis datos personales.
+    </label>
+  </div>
+
+  <!-- Archivo (URL Drive) -->
+  <div class="sp-form-group">
+    <label for="archivo_url">Archivo / Documento (URL)</label>
+    <input type="url" id="archivo_url" name="archivo_url" placeholder="https://drive.google.com/..." pattern="https?://.+" />
+  </div>
+
+  <!-- Notas -->
+  <div class="sp-form-group">
+    <label for="notas">Notas</label>
+    <textarea id="notas" name="notas" rows="3"></textarea>
+  </div>
+</form>

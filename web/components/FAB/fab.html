@@ -1,0 +1,20 @@
+<!-- web/components/FAB/fab.html -->
+<template id="sp-fab-template">
+  <div class="sp-fab-wrapper">
+    <button class="sp-fab" aria-label="Crear nuevo registro" aria-expanded="false" aria-haspopup="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+    </button>
+
+    <ul class="sp-fab-menu" role="menu" hidden>
+      <li role="menuitem" data-type="donacion">➕ Crear Donación</li>
+      <li role="menuitem" data-type="donante">👤 Crear Donante</li>
+      <li role="menuitem" data-type="caso">🐾 Crear Caso</li>
+      <li role="menuitem" data-type="gasto">💰 Crear Gasto</li>
+      <li role="menuitem" data-type="hogar">🏠 Crear Hogar</li>
+      <li role="menuitem" data-type="proveedor">🏢 Crear Proveedor</li>
+    </ul>
+  </div>
+</template>
