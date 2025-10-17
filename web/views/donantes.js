@@ -60,7 +60,11 @@ export async function renderDonantes(container) {
 
   // 🔹 Función abrir modal
   async function openModal(row = null) {
-    const html = await fetch('/web/forms/form-donante.html').then(r => r.text());
+    const res = await fetch('./forms/form-donante.html');
+    if (!res.ok) {
+      throw new Error(`No se pudo cargar el formulario: ${res.status}`);
+    }
+    const html = await res.text();
     const wrapper = document.createElement('div');
     wrapper.innerHTML = html;
     const form = wrapper.firstElementChild;

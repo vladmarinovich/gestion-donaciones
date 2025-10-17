@@ -127,6 +127,14 @@ a {
   gap: var(--sp-space-4);
 }
 
+.sp-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sp-space-3);
+  margin-bottom: var(--sp-space-2);
+}
+
 .sp-view-title {
   font-size: 1.5rem;
   font-weight: 600;
@@ -134,8 +142,28 @@ a {
 
 .sp-kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: var(--sp-space-3);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--sp-space-4); /* 1.5rem = 24px */
+}
+
+.sp-card {
+  background: white;
+  border-radius: var(--sp-radius-md);
+  padding: var(--sp-space-3);
+  box-shadow: var(--sp-shadow-sm);
+  border: 1px solid var(--sp-muted);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sp-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sp-shadow-md);
+}
+
+.sp-card h3 {
+  margin-top: 0;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .sp-table-section {

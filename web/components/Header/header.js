@@ -2,8 +2,11 @@ export class SpHeader {
   async mount(container, { title }) {
     try {
       // Cargar el template desde header.html
-      const res = await fetch('/web/components/Header/header.html');
+      const res = await fetch('./components/Header/header.html');
       const html = await res.text();
+      if (!res.ok) {
+        throw new Error(`Error al cargar la plantilla: ${res.status}`);
+      }
 
       // Insertar en el contenedor
       container.innerHTML = html;

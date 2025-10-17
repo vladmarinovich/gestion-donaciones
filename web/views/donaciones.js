@@ -88,7 +88,11 @@ export async function renderDonaciones(container) {
 
   // 🔹 Función para abrir modal (crear o editar)
   async function openModal(row = null) {
-    const html = await fetch('/web/forms/form-donacion.html').then(r => r.text());
+    const res = await fetch('./forms/form-donacion.html');
+    if (!res.ok) {
+      throw new Error(`No se pudo cargar el formulario: ${res.status}`);
+    }
+    const html = await res.text();
     const wrapper = document.createElement('div');
     wrapper.innerHTML = html;
     const form = wrapper.firstElementChild;
