@@ -2,7 +2,7 @@ export class SpHeader {
   async mount(container, { title }) {
     try {
       // Cargar el template desde header.html
-      const res = await fetch('./components/Header/header.html');
+      const res = await fetch('/web/components/Header/header.html');
       const html = await res.text();
 
       // Insertar en el contenedor

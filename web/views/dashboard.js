@@ -1,48 +1,44 @@
-// web/views/dashboard.js
-import { SpCard } from '../components/Card/card.js';
+// /web/views/dashboard.js
 
-export async function renderDashboard(container) {
-  // 🔹 Estructura base
+export function renderDashboard(container) {
   container.innerHTML = `
-    <section class="sp-dashboard-view">
-      <h1 class="sp-view-title">Dashboard</h1>
+    <section class="sp-dashboard">
+      <header class="sp-dashboard__header">
+        <h1>Resumen del negocio</h1>
+        <button class="sp-btn sp-btn--primary">Agregar gráfica</button>
+      </header>
 
-      <div class="sp-kpi-grid" id="kpi-grid"></div>
+      <div class="sp-dashboard__grid">
+        <div class="sp-card sp-card--green">
+          <h3>Cuentas por cobrar</h3>
+          <p class="sp-card__value">$22,134,000</p>
+          <small>Vigentes: 1 documento</small>
+        </div>
 
-      <div class="sp-chart-section">
-        <h2 class="sp-section-title">Resumen de Actividad</h2>
-        <div id="chart-placeholder" class="sp-chart-placeholder">
-          📊 Aquí irá el gráfico de donaciones y gastos.
+        <div class="sp-card sp-card--red">
+          <h3>Cuentas por pagar</h3>
+          <p class="sp-card__value">$6,755,000</p>
+          <small>Vencidas: 1 documento</small>
+        </div>
+
+        <div class="sp-card">
+          <h3>Clientes con ventas</h3>
+          <p class="sp-card__value">1</p>
+        </div>
+
+        <div class="sp-card">
+          <h3>Productos vendidos</h3>
+          <p class="sp-card__value">300</p>
+        </div>
+      </div>
+
+      <div class="sp-dashboard__chart">
+        <h3>Total de ventas</h3>
+        <p>La gráfica muestra el valor total con impuestos incluidos.</p>
+        <div class="sp-chart-placeholder">
+          📊 Aquí irá el gráfico de donaciones y gastos
         </div>
       </div>
     </section>
   `;
-
-  // 🔹 KPI placeholders
-  const kpiData = [
-    { title: 'Total Donaciones', value: 0 },
-    { title: 'Gastos Totales', value: 0 },
-    { title: 'Donantes Activos', value: 0 },
-    { title: 'Casos Abiertos', value: 0 },
-    { title: 'Hogares Disponibles', value: 0 },
-    { title: 'Proveedores', value: 0 },
-  ];
-
-  const kpiGrid = container.querySelector('#kpi-grid');
-  kpiData.forEach(kpi => {
-    const cardWrapper = document.createElement('div');
-    const card = new SpCard();
-    card.mount(cardWrapper, { title: kpi.title, value: kpi.value });
-    kpiGrid.appendChild(cardWrapper);
-  });
-
-  // 🔹 Placeholder gráfico
-  const chartContainer = container.querySelector('#chart-placeholder');
-  chartContainer.style.minHeight = '220px';
-  chartContainer.style.display = 'flex';
-  chartContainer.style.alignItems = 'center';
-  chartContainer.style.justifyContent = 'center';
-  chartContainer.style.background = '#fff';
-  chartContainer.style.borderRadius = 'var(--sp-radius-md)';
-  chartContainer.style.boxShadow = 'var(--sp-shadow-sm)';
 }

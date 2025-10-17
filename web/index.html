@@ -6,7 +6,7 @@
     <title>Salvando Patitas 🐾 – Gestión de Donaciones</title>
 
     <!-- 🎨 Estilos base -->
-    <link rel="stylesheet" href="./css/token.css" />
+    <link rel="stylesheet" href="./css/tokens.css" />
     <link rel="stylesheet" href="./css/styles.css" />
 
     <!-- 🧩 Estilos de componentes -->
@@ -19,48 +19,22 @@
 
   <body>
     <!-- 🌐 GRID PRINCIPAL -->
-    <div class="sp-app-grid">
+    <div class="sp-app">
       <!-- SIDEBAR -->
       <aside id="sidebar" class="sp-sidebar"></aside>
 
-      <!-- CONTENIDO PRINCIPAL -->
-      <div class="sp-main">
-        <header id="header" class="sp-header"></header>
-        <main id="app" class="sp-main-content">
-          <div class="sp-loading">Cargando vista...</div>
-        </main>
-      </div>
+      <!-- HEADER -->
+      <header id="header" class="sp-header"></header>
+
+      <!-- CONTENIDO PRINCIPAL (donde se renderizan las vistas) -->
+      <main id="app" class="sp-main"></main>
     </div>
 
-    <!-- 🔹 PLANTILLAS COMPONENTES (para que main.js pueda montarlos) -->
-    <template id="sp-header-template">
-      <header class="sp-header">
-        <h1 class="sp-header__title">Salvando Patitas</h1>
-        <div class="sp-header__user">
-          <span class="sp-header__name">Usuario</span>
-          <button class="sp-header__logout" aria-label="Cerrar sesión">Salir</button>
-        </div>
-      </header>
-    </template>
-
-    <template id="sp-sidebar-template">
-      <nav class="sp-sidebar" aria-label="Navegación principal">
-        <div class="sp-sidebar__logo">
-          🐾 <span>CRM Fundación Salvando Patitas</span>
-        </div>
-        <ul class="sp-sidebar__menu">
-          <li><a href="#/dashboard" class="sp-sidebar__link sp-sidebar__link--active">Dashboard</a></li>
-          <li><a href="#/donaciones" class="sp-sidebar__link">Donaciones</a></li>
-          <li><a href="#/donantes" class="sp-sidebar__link">Donantes</a></li>
-          <li><a href="#/gastos" class="sp-sidebar__link">Gastos</a></li>
-          <li><a href="#/hogares" class="sp-sidebar__link">Hogares</a></li>
-          <li><a href="#/proveedores" class="sp-sidebar__link">Proveedores</a></li>
-          <li><a href="#/config" class="sp-sidebar__link">Configuración</a></li>
-        </ul>
-      </nav>
-    </template>
+    <!-- MODAL GLOBAL: Usado para los formularios de creación/edición -->
+    <div id="modal-root"></div>
 
     <!-- 📜 JS PRINCIPAL -->
+    <script type="module" src="./js/auth.js"></script>
     <script type="module" src="./js/main.js"></script>
   </body>
 </html>

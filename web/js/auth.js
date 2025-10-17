@@ -4,9 +4,11 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+// Re-exportamos onAuthStateChanged para que otros módulos puedan usarla
+export { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
 import { app } from "./firebase-config.js";
 
@@ -50,12 +52,3 @@ window.logout = function () {
     window.location.href = "./login.html";
   });
 };
-
-// 📡 Escuchar cambios en el estado de autenticación
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    console.log("📡 Usuario autenticado:", user.email);
-  } else {
-    console.log("⚠️ No autenticado");
-  }
-});

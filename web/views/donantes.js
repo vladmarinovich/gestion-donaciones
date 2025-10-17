@@ -1,6 +1,7 @@
 // web/views/donantes.js
 import { SpTable } from '../components/Table/table.js';
 import { SpModal } from '../components/Modal/modal.js';
+import { getAll } from '../js/db.js'; // 👈 Importamos la función de DB
 
 export async function renderDonantes(container) {
   // 🔹 Limpiar contenido
@@ -20,21 +21,10 @@ export async function renderDonantes(container) {
   const tableSection = container.querySelector('#table-section');
   const table = new SpTable();
 
-  const mockData = [
-    {
-      nombre_donante: 'Juan Pérez',
-      tipo_donante: 'Persona',
-      correo: 'juan@example.com',
-      telefono: '+57 3001234567',
-    },
-    {
-      nombre_donante: 'Mascotas Felices S.A.',
-      tipo_donante: 'Empresa',
-      correo: 'contacto@mascotasfelices.co',
-      telefono: '+57 3109876543',
-    },
-  ];
+  // Leemos los donantes desde Firestore
+  const donantes = await getAll('donantes');
 
+  // Montamos la tabla con los datos reales
   table.mount(tableSection, {
     columns: [
       { key: 'nombre_donante', label: 'Nombre' },
@@ -42,7 +32,7 @@ export async function renderDonantes(container) {
       { key: 'correo', label: 'Correo' },
       { key: 'telefono', label: 'Teléfono' },
     ],
-    data: mockData,
+    data: donantes,
   });
 
   // 🔹 Acciones tabla
