@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar sesión | Salvando Patitas 🐾</title>
+
+    <!-- 🎨 Estilos -->
+    <link rel="stylesheet" href="./css/tokens.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/login.css" />
+  </head>
+
+  <body class="sp-login">
+    <main class="sp-login__wrapper">
+      <!-- Panel izquierdo -->
+      <section class="sp-login__form">
+        <div class="sp-login__logo">
+          <img src="./assets/Logo.png" alt="Logo Salvando Patitas" />
+        </div>
+
+        <div>
+          <h1>CRM Fundación Salvando Patitas</h1>
+          <p class="sp-login__subtitle">
+            Inicia sesión para gestionar tus donaciones
+          </p>
+        </div>
+
+        <!-- 🔐 Formulario de inicio de sesión -->
+        <form
+          id="emailLoginForm"
+          class="sp-login__form-fields"
+          onsubmit="event.preventDefault(); loginWithEmail();"
+          novalidate>
+          <label for="email">Correo electrónico</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="ejemplo@email.com"
+            required
+            autocomplete="email"
+          />
+
+          <label for="password">Contraseña</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="••••••••"
+            required
+            autocomplete="current-password"
+          />
+
+          <p class="sp-login__forgot">
+            ¿Olvidaste tu contraseña?
+            <a href="#" id="resetPasswordLink">Haz clic aquí</a>.
+          </p>
+
+          <button type="submit" class="sp-btn sp-btn--primary">
+            Iniciar sesión
+          </button>
+        </form>
+
+        <!-- 🔘 Botón de Google -->
+        <button
+          id="googleLogin"
+          class="sp-btn sp-btn--google"
+          onclick="loginWithGoogle()"
+        >
+          <img src="./assets/google-icon.png" alt="Google logo" />
+          Continuar con Google
+        </button>
+
+        <footer class="sp-login__footer">
+          <p>
+            © 2025 Salvando Patitas · Todos los derechos reservados <br />
+            Creado por Vlad Marinovich
+          </p>
+        </footer>
+      </section>
+
+      <!-- Panel derecho -->
+      <section class="sp-login__illustration">
+        <img
+          src="./assets/login-illustration.svg"
+          alt="Ilustración de inicio"
+        />
+      </section>
+    </main>
+
+    <!-- =======================================================
+         🔗 Scripts (Firebase + autenticación)
+    ======================================================= -->
+    <script type="module">
+      import "./js/auth.js";
+
+      // 👇 Asegura que estén disponibles globalmente
+      window.loginWithEmail = window.loginWithEmail;
+      window.loginWithGoogle = window.loginWithGoogle;
+    </script>
+  </body>
+</html>

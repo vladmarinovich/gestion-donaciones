@@ -1,0 +1,231 @@
+/* ===========================
+   LOGIN PAGE – SALVANDO PATITAS 🐾
+   =========================== */
+
+body.sp-login {
+  font-family: "Inter", system-ui, sans-serif;
+  color: #1c1c1c;
+  background-color: #fafafa;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ========= LAYOUT GENERAL ========= */
+.sp-login__wrapper {
+  display: flex;
+  width: 90%;
+  max-width: 1100px;
+  height: 90vh;
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* ========= FORMULARIO ========= */
+.sp-login__form {
+  flex: 1;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 4rem;
+  box-sizing: border-box;
+}
+
+/* Reducir espacio izquierdo */
+.sp-login__form > * {
+  margin-left: 0;
+}
+
+/* ========= PANEL DE ILUSTRACIÓN ========= */
+.sp-login__illustration {
+  flex: 1;
+  background: linear-gradient(120deg, #2d7ff9, #3ddc97);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.03);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.sp-login__illustration:hover {
+  transform: scale(1.02);
+  background: linear-gradient(2deg, #3ddc97, #2d7ff9);
+}
+
+.sp-login__illustration img {
+  width: 75%;
+  max-width: 420px;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.sp-login__illustration img:hover {
+  transform: scale(1.05);
+}
+
+/* ========= LOGO Y TÍTULOS ========= */
+.sp-login__logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.sp-login__logo img {
+  width: 180px;
+  height: auto;
+}
+
+.sp-login__logo h1 {
+  font-size: 1.2rem;
+  color: #2d7ff9;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: #1c1c1c;
+}
+
+.sp-login__subtitle {
+  color: #444;
+  margin-bottom: 1.8rem;
+}
+
+/* ========= CAMPOS DEL FORMULARIO ========= */
+.sp-login__form-fields {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 360px;
+}
+
+.sp-login__form-fields label {
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.sp-login__form-fields input {
+  padding: 0.8rem 1rem;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  background-color: white;
+  transition: border-color 0.2s ease;
+}
+
+.sp-login__form-fields input:focus {
+  border-color: #2d7ff9;
+  outline: none;
+}
+
+/* ========= BOTONES ========= */
+.sp-btn {
+  width: 100%;
+  max-width: 360px;
+  padding: 0.9rem 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.sp-btn--primary {
+  background-color: #2d7ff9;
+  color: white;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.sp-btn--primary:hover {
+  background-color: #1c63d9;
+}
+
+/* ========= BOTÓN DE GOOGLE ========= */
+.sp-btn--google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: white;
+  border: 1px solid #dcdcdc;
+  color: #1c1c1c;
+  font-weight: 500;
+  width: 100%;
+  max-width: 360px;
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  box-sizing: border-box;
+}
+
+.sp-btn--google img {
+  width: 20px;
+  height: 20px;
+}
+
+.sp-btn--google:hover {
+  background-color: #f3f3f3;
+}
+
+/* ========= TEXTO OLVIDASTE CONTRASEÑA ========= */
+.sp-login__forgot {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.sp-login__forgot a {
+  color: #2d7ff9;
+  text-decoration: none;
+}
+
+.sp-login__forgot a:hover {
+  text-decoration: underline;
+}
+
+/* ========= FOOTER ========= */
+.sp-login__footer {
+  margin-top: 3rem;
+  font-size: 0.8rem;
+  color: #666;
+  text-align: center;
+  width: 100%;
+  line-height: 1.5;
+}
+
+/* ========= RESPONSIVE ========= */
+@media (max-width: 900px) {
+  .sp-login__wrapper {
+    flex-direction: column;
+    height: auto;
+    width: 95%;
+    box-shadow: none;
+  }
+
+  .sp-login__form {
+    align-items: center;
+    text-align: center;
+    padding: 3rem 2rem;
+  }
+
+  .sp-login__form-fields {
+    align-items: center;
+  }
+
+  .sp-login__form-fields label {
+    align-self: flex-start;
+  }
+}
