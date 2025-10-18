@@ -1,7 +1,7 @@
 // web/views/donantes.js
 import { SpTable } from '../components/Table/table.js';
 import { SpModal } from '../components/Modal/modal.js';
-import { getAll } from '../js/db.js'; // 👈 Importamos la función de DB
+import { getAll, create, update, remove } from '../js/db.js';
 
 export async function renderDonantes(container) {
   // 🔹 Limpiar contenido
@@ -20,11 +20,6 @@ export async function renderDonantes(container) {
   // 🔹 Tabla
   const tableSection = container.querySelector('#table-section');
   const table = new SpTable();
-
-  // Leemos los donantes desde Firestore
-  const donantes = await getAll('donantes');
-
-  // Montamos la tabla con los datos reales
   table.mount(tableSection, {
     columns: [
       { key: 'nombre_donante', label: 'Nombre' },
@@ -32,20 +27,7 @@ export async function renderDonantes(container) {
       { key: 'correo', label: 'Correo' },
       { key: 'telefono', label: 'Teléfono' },
     ],
-    data: donantes,
-  });
-
-  // 🔹 Acciones tabla
-  table.on('edit', row => {
-    console.log('Editar donante:', row);
-    openModal(row);
-  });
-
-  table.on('delete', row => {
-    console.log('Eliminar donante:', row);
-    if (confirm(`¿Eliminar donante "${row.nombre_donante}"?`)) {
-      alert('Registro eliminado (simulado)');
-    }
+    data: [], // Se llenará dinámicamente
   });
 
   // 🔹 Modal
@@ -53,38 +35,78 @@ export async function renderDonantes(container) {
   const modal = new SpModal();
   modal.mount(modalRoot, { title: 'Nuevo Donante' });
 
-  // 🔹 Botón crear
-  container.querySelector('#btn-crear-donante').addEventListener('click', async () => {
-    openModal();
+  // =============================================
+  // 🔹 Lógica Principal y Flujo de Datos
+  // =============================================
+
+  /** Carga o recarga los donantes de Firestore y los renderiza en la tabla. */
+  async function loadDonantes() {
+    try {
+      const donantes = await getAll('donantes');
+      table.setData(donantes);
+    } catch (error) {
+      console.error('Error al cargar donantes:', error);
+      table.setData([]); // Muestra la tabla vacía en caso de error
+    }
+  }
+
+  /** Abre el modal para crear o editar un donante. */
+  async function openModal(row = null) {
+    try {
+      const res = await fetch('./forms/form-donante.html');
+      if (!res.ok) throw new Error(`No se pudo cargar el formulario: ${res.status}`);
+      const html = await res.text();
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = html;
+      const form = wrapper.firstElementChild;
+
+      if (row) {
+        // Modo Edición: Llenar el formulario con datos existentes
+        modal.setTitle('Editar Donante');
+        Object.keys(row).forEach(k => {
+          if (form.elements[k]) form.elements[k].value = row[k];
+        });
+      } else {
+        // Modo Creación
+        modal.setTitle('Nuevo Donante');
+      }
+
+      modal.setContent(form);
+      modal.open();
+
+      // Escuchar el evento 'submit' del modal una sola vez
+      modal.on('submit', async (formData) => {
+        try {
+          if (row && row.id) {
+            // Actualizar donante existente
+            await update('donantes', row.id, formData);
+          } else {
+            // Crear nuevo donante
+            await create('donantes', formData);
+          }
+          modal.close();
+          await loadDonantes(); // Recargar la tabla
+        } catch (error) {
+          console.error('Error al guardar el donante:', error);
+        }
+      });
+    } catch (error) {
+      console.error('Error al abrir el modal:', error);
+    }
+  }
+
+  // =============================================
+  // 🔹 Conexión de Eventos
+  // =============================================
+  container.querySelector('#btn-crear-donante').addEventListener('click', () => openModal());
+  table.on('edit', (row) => openModal(row));
+  table.on('delete', async (row) => {
+    if (confirm(`¿Estás seguro de que quieres eliminar a "${row.nombre_donante}"?`)) {
+      await remove('donantes', row.id);
+      await loadDonantes(); // Recargar la tabla
+    }
   });
 
-  // 🔹 Función abrir modal
-  async function openModal(row = null) {
-    const res = await fetch('./forms/form-donante.html');
-    if (!res.ok) {
-      throw new Error(`No se pudo cargar el formulario: ${res.status}`);
-    }
-    const html = await res.text();
-    const wrapper = document.createElement('div');
-    wrapper.innerHTML = html;
-    const form = wrapper.firstElementChild;
-
-    if (row) {
-      Object.keys(row).forEach(k => {
-        if (form[k]) form[k].value = row[k];
-      });
-      modal.setTitle('Editar Donante');
-    } else {
-      modal.setTitle('Nuevo Donante');
-    }
-
-    modal.setContent(form);
-    modal.open();
-
-    modal.on('submit', formData => {
-      console.log('Datos enviados:', formData);
-      alert('✅ Donante guardado (simulado)');
-      modal.close();
-    });
-  }
+  // Carga inicial de datos
+  loadDonantes();
 }

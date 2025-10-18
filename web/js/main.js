@@ -1,90 +1,119 @@
 // web/js/main.js
+// ===================================================
+// 🔹 APP PRINCIPAL: Gestión de Donaciones - Salvando Patitas 🐾
+// ===================================================
 
-import { auth, onAuthStateChanged } from './auth.js';
-// Componentes base
-import { SpHeader } from '../components/Header/header.js';
-import { SpSidebar } from '../components/Sidebar/sidebar.js';
-import { SpFAB } from '../components/FAB/fab.js';
+// ===== 🔹 IMPORTS =====
+import { auth, onAuthStateChanged } from "./auth.js";
+
+// Componentes principales
+import { SpHeader } from "../components/Header/header.js";
+import { SpSidebar } from "../components/Sidebar/sidebar.js";
+import { initFAB } from "../components/FAB/fab.js";
+import { SpSlidePanel } from "../components/SlidePanel/slide-panel.js";
 
 // Vistas
-import { renderDashboard } from '../views/dashboard.js';
-import { renderDonaciones } from '../views/donaciones.js';
-import { renderDonantes } from '../views/donantes.js';
-import { renderGastos } from '../views/gastos.js';
-import { renderHogares } from '../views/hogares.js';
-import { renderProveedores } from '../views/proveedores.js';
+import { renderDashboard } from "../views/dashboard.js";
+import { renderDonaciones } from "../views/donaciones.js";
+import { renderDonantes } from "../views/donantes.js";
+import { renderGastos } from "../views/gastos.js";
+import { renderHogares } from "../views/hogares.js";
+import { renderProveedores } from "../views/proveedores.js";
 
-// Mapa de rutas
+// ===== 🔹 MAPA DE RUTAS =====
 const routes = {
-  '#/dashboard': renderDashboard,
-  '#/donaciones': renderDonaciones,
-  '#/donantes': renderDonantes,
-  '#/gastos': renderGastos,
-  '#/hogares': renderHogares,
-  '#/proveedores': renderProveedores,
+  "#/dashboard": renderDashboard,
+  "#/donaciones": renderDonaciones,
+  "#/donantes": renderDonantes,
+  "#/gastos": renderGastos,
+  "#/hogares": renderHogares,
+  "#/proveedores": renderProveedores,
 };
 
-/**
- * Carga la vista correspondiente al hash actual
- */
+// ===================================================
+// 🔹 FUNCIÓN DE ENRUTAMIENTO SPA
+// ===================================================
 function loadView() {
-  const hash = window.location.hash || '#/dashboard';
+  const hash = window.location.hash || "#/dashboard";
   const view = routes[hash];
-  const container = document.getElementById('app');
-  container.innerHTML = '';
+  const container = document.getElementById("app");
+  container.innerHTML = "";
 
   if (view) view(container);
-  else container.innerHTML = '<p>Vista no encontrada</p>';
+  else container.innerHTML = "<p>⚠️ Vista no encontrada.</p>";
 }
 
-/**
- * Inicialización de la aplicación
- */
+// ===================================================
+// 🔹 INICIALIZACIÓN DE LA APLICACIÓN
+// ===================================================
 function initializeApp(user) {
-  if (!document.querySelector('.sp-app')) return; // No hacer nada si no estamos en la app principal
+  console.log("✅ Usuario autenticado:", user?.email || "Sin email");
 
-  // Componentes principales que dependen del usuario
+  const sidebarRoot = document.getElementById("sidebar");
+  const headerRoot = document.getElementById("header");
+  const fabRoot = document.getElementById("fab-root");
+
+  if (!sidebarRoot || !headerRoot || !fabRoot) {
+    console.error("❌ No se encontraron elementos base en el DOM.");
+    return;
+  }
+
+  // Sidebar
   const sidebar = new SpSidebar();
-  sidebar.mount(document.getElementById('sidebar'), { user });
+  sidebar.mount(sidebarRoot, { user });
 
+  // Header
   const header = new SpHeader();
-  header.mount(document.getElementById('header'), { title: 'Dashboard' });
+  header.mount(headerRoot, { title: "Dashboard" });
 
-  // FAB global (botón de acción flotante)
-  // const fab = new SpFAB();
-  // fab.mount(document.getElementById('fab-root'));
+  // Slide Panel (para formularios)
+  const slidePanel = new SpSlidePanel();
 
-  // Carga inicial + enrutamiento
-  window.addEventListener('hashchange', loadView);
+  // ===== 🧩 FAB =====
+  requestAnimationFrame(() => {
+    initFAB(); // Usa el FAB modular
+
+    // Detecta clicks en los ítems del FAB
+    document.addEventListener("fab:create", (e) => {
+      const { type } = e.detail;
+      const formPath = `./forms/form-${type}.html`;
+      const formTitle =
+        "Nuevo " + type.charAt(0).toUpperCase() + type.slice(1);
+
+      console.log(`📄 Abriendo formulario: ${formPath}`);
+
+      slidePanel.open(formPath, formTitle);
+    });
+  });
+
+  // Enrutamiento SPA
+  window.addEventListener("hashchange", loadView);
   loadView();
 }
 
-/**
- * Punto de entrada principal
- * Verifica la autenticación antes de inicializar la app.
- */
-window.addEventListener('DOMContentLoaded', () => {
+// ===================================================
+// 🔹 CONTROL DE SESIÓN Y ARRANQUE DE APP
+// ===================================================
+window.addEventListener("DOMContentLoaded", () => {
   onAuthStateChanged(auth, (user) => {
-    const isAppPage = window.location.pathname.includes('index.html') || window.location.pathname === '/';
-    const isLoginPage = window.location.pathname.includes('login.html');
-  
+    const path = window.location.pathname;
+    const isAppPage =
+      path.endsWith("index.html") || path === "/" || path === "";
+    const isLoginPage = path.includes("login.html");
+
     if (user) {
-      // Si el usuario está autenticado...
+      // ✅ Usuario autenticado
       if (isLoginPage) {
-        // y está en la página de login, lo redirigimos a la app.
-        window.location.replace('/index.html#/dashboard');
+        window.location.replace("/index.html#/dashboard");
       } else if (isAppPage) {
-        // y está en la página de la app, inicializamos los componentes.
         initializeApp(user);
       }
     } else {
-      // Si el usuario NO está autenticado...
+      // 🚫 Usuario NO autenticado
       if (isAppPage) {
-        // y está tratando de acceder a la app, lo redirigimos al login.
-        console.log('Usuario no autenticado, redirigiendo a login...');
-        window.location.replace('/login.html');
+        console.warn("⚠️ Usuario no autenticado, redirigiendo a login...");
+        window.location.replace("/login.html");
       }
-      // Si ya está en login.html, no hacemos nada.
     }
   });
 });

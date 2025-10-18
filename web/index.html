@@ -12,6 +12,7 @@
     <!-- 🧩 Estilos de componentes -->
     <link rel="stylesheet" href="./components/Header/header.css" />
     <link rel="stylesheet" href="./components/Sidebar/sidebar.css" />
+    <link rel="stylesheet" href="./components/FAB/fab.css" />
 
     <!-- 🐾 Favicon -->
     <link rel="icon" href="./assets/favicon.png" type="image/png" />
@@ -26,14 +27,31 @@
       <!-- HEADER -->
       <header id="header" class="sp-header"></header>
 
-      <!-- CONTENIDO PRINCIPAL (donde se renderizan las vistas) -->
+      <!-- CONTENIDO PRINCIPAL -->
       <main id="app" class="sp-main"></main>
     </div>
 
-    <!-- MODAL GLOBAL: Usado para los formularios de creación/edición -->
+    <!-- 🌟 MODAL GLOBAL (formularios, confirmaciones, etc.) -->
     <div id="modal-root"></div>
 
-    <!-- 📜 JS PRINCIPAL -->
+    <!-- 🟣 FAB GLOBAL -->
+    <div id="fab-root"></div>
+    <!-- 🟣 PLANTILLA DEL BOTÓN FLOTANTE (FAB) -->
+    <template id="sp-fab-template">
+      <div class="sp-fab">
+        <button class="sp-fab__button" aria-label="Crear nuevo registro">+</button>
+        <ul class="sp-fab__menu">
+          <li data-type="donacion">Nueva Donación</li>
+          <li data-type="donante">Nuevo Donante</li>
+          <li data-type="gasto">Nuevo Gasto</li>
+          <li data-type="hogar">Nuevo Hogar</li>
+          <li data-type="proveedor">Nuevo Proveedor</li>
+        </ul>
+      </div>
+    </template>
+
+    <!-- 📜 JS PRINCIPALES (en orden correcto) -->
+    <script type="module" src="./js/db.js"></script>
     <script type="module" src="./js/auth.js"></script>
     <script type="module" src="./js/main.js"></script>
   </body>

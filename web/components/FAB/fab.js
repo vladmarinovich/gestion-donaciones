@@ -1,64 +1,41 @@
-// web/components/FAB/fab.js
-export class SpFAB {
-  constructor() {
-    this.template = document.getElementById('sp-fab-template');
-    this.el = null;
-    this.menu = null;
-    this.listeners = {};
+// /web/components/FAB/fab.js
+export function initFAB() {
+  console.log("✅ FAB inicializado correctamente");
+
+  // Busca el template
+  const template = document.getElementById("sp-fab-template");
+  if (!template) {
+    console.error("❌ Template sp-fab-template no encontrado.");
+    return;
   }
 
-  mount(container) {
-    if (!this.template) {
-      console.error('Template sp-fab-template no encontrado');
-      return;
-    }
+  // Clona el contenido
+  const fabEl = template.content.cloneNode(true);
+  document.body.appendChild(fabEl);
 
-    const node = this.template.content.cloneNode(true);
-    container.innerHTML = '';
-    container.appendChild(node);
+  // Referencias
+  const fabButton = document.querySelector(".sp-fab__button");
+  const fabMenu = document.querySelector(".sp-fab__menu");
 
-    this.el = container.querySelector('.sp-fab');
-    this.menu = container.querySelector('.sp-fab-menu');
+  // Toggle del menú
+  fabButton.addEventListener("click", () => {
+    fabMenu.classList.toggle("is-active");
+  });
 
-    this.el.addEventListener('click', () => this.toggleMenu());
+  // Manejar clicks en los ítems del menú
+  fabMenu.querySelectorAll("li").forEach((item) => {
+    item.addEventListener("click", () => {
+      const type = item.dataset.type;
+      console.log(`🧩 FAB: clic en ${type}`);
 
-    this.menu.querySelectorAll('li').forEach(item => {
-      item.addEventListener('click', () => {
-        const type = item.dataset.type;
-        this.emit('create', { type });
-        this.closeMenu();
+      // Emitir evento personalizado
+      const event = new CustomEvent("fab:create", {
+        detail: { type },
       });
+      document.dispatchEvent(event);
+
+      // Cierra el menú
+      fabMenu.classList.remove("is-active");
     });
-  }
-
-  toggleMenu() {
-    const isOpen = this.el.getAttribute('aria-expanded') === 'true';
-    if (isOpen) this.closeMenu();
-    else this.openMenu();
-  }
-
-  openMenu() {
-    this.menu.hidden = false;
-    this.el.setAttribute('aria-expanded', 'true');
-  }
-
-  closeMenu() {
-    this.menu.hidden = true;
-    this.el.setAttribute('aria-expanded', 'false');
-  }
-
-  on(event, fn) {
-    this.listeners[event] = fn;
-  }
-
-  emit(event, detail = null) {
-    if (this.listeners[event]) this.listeners[event](detail);
-    const evt = new CustomEvent(`sp:fab:${event}`, { detail });
-    this.el?.dispatchEvent(evt);
-  }
-
-  destroy() {
-    if (this.el) this.el.remove();
-    this.listeners = {};
-  }
+  });
 }

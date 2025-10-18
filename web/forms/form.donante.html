@@ -93,4 +93,33 @@
     <label for="notas">Notas</label>
     <textarea id="notas" name="notas" rows="3"></textarea>
   </div>
+
+  <!-- Botón Guardar -->
+  <div class="sp-form-actions">
+    <button type="submit" class="sp-btn sp-btn--primary">Guardar Donante</button>
+  </div>
 </form>
+
+<script type="module">
+  import { db } from "../js/firebase-config.js";
+  import { collection, addDoc, Timestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+  const form = document.getElementById("form-donante");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const data = Object.fromEntries(new FormData(form).entries());
+    data.fecha_registro = Timestamp.now();
+
+    try {
+      const docRef = await addDoc(collection(db, "donantes"), data);
+      document.getElementById("id_donante").value = docRef.id;
+      alert(`✅ Donante agregado con ID: ${docRef.id}`);
+      form.reset();
+    } catch (err) {
+      console.error("❌ Error al guardar donante:", err);
+      alert("Error al guardar el donante. Revisa la consola.");
+    }
+  });
+</script>
