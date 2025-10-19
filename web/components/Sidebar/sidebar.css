@@ -6,15 +6,29 @@
   box-shadow: 1px 0 8px rgba(28, 28, 28, 0.05);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   grid-area: sidebar;
+  height: 100vh;
+  left: 0;
   overflow-y: auto;
+  position: fixed;
+  top: 0;
+  width: 260px;
+  z-index: 10;
 }
 
 .sp-sidebar__inner {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  height: 100%;
+  justify-content: space-between;
   padding: 1rem;
+}
+
+.sp-sidebar__top {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .sp-sidebar__header {
@@ -72,11 +86,10 @@
   transition: fill 0.2s ease;
 }
 
-/* --- Pie de página y Usuario --- */
-.sp-sidebar__footer {
-  margin-top: auto; /* Empuja el footer al final */
+.sp-sidebar__bottom {
+  border-top: 1px solid #e0e0e0;
+  margin-top: 1.5rem;
   padding-top: 1rem;
-  border-top: 1px solid #e3e6eb;
 }
 
 .sp-sidebar__user {
@@ -125,4 +138,16 @@
 
 .sp-sidebar__link--logout:hover .sp-sidebar__icon {
   fill: #d93025;
+}
+
+@media (max-width: 768px) {
+  .sp-sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .sp-sidebar__inner {
+    height: auto;
+  }
 }

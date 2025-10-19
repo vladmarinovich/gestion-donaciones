@@ -6,7 +6,7 @@ import {
   serverTimestamp,
   doc,
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-import { closeSlidePanel } from "../components/SlidePanel/slide-panel.js";
+import { closeSlidePanel } from "../../components/SlidePanel/slide-panel.js";
 
 export async function initDonacionForm() {
   const form = document.querySelector("#form-donacion");

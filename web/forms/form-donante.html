@@ -70,15 +70,18 @@
       <option value="evento">Evento</option>
       <option value="referido">Referido</option>
       <option value="ads">Publicidad (Ads)</option>
-    </select>
+ z   </select>
   </div>
 
-  <!-- Tipo de donante -->
-  <fieldset class="sp-form-group">
-    <legend>Tipo de donante *</legend>
-    <label><input type="radio" name="tipo_donante" value="persona" required /> Persona</label>
-    <label><input type="radio" name="tipo_donante" value="empresa" required /> Empresa</label>
-  </fieldset>
+<!-- Tipo de donante -->
+<div class="sp-form-group">
+  <label for="tipo_donante">Tipo de donante *</label>
+  <select id="tipo_donante" name="tipo_donante" required>
+    <option value="" disabled selected>Selecciona una opción</option>
+    <option value="persona">Persona</option>
+    <option value="empresa">Empresa</option>
+  </select>
+</div>
 
   <!-- Consentimiento -->
   <div class="sp-form-group">

@@ -1,62 +1,156 @@
-// ✅ nuevo web/js/forms/form-gasto.js
-import { db } from "../firebase-config.js"; // ✅ nuevo
-import { collection, addDoc, Timestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"; // ✅ nuevo
-import { closeSlidePanel } from "../components/SlidePanel/slide-panel.js"; // ✅ nuevo
+import { db } from "../db.js";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  serverTimestamp,
+  doc,
+} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+import { closeSlidePanel } from "../../components/SlidePanel/slide-panel.js";
 
-export function initGastoForm() { // ✅ nuevo
-  const form = document.getElementById("form-gasto"); // ✅ nuevo
+export async function initGastoForm() {
+  const form = document.querySelector("#form-gasto");
+  if (!form) {
+    console.warn("⚠️ Formulario de gasto no encontrado en el DOM.");
+    return;
+  }
 
-  if (!form) { // ✅ nuevo
-    console.warn("⚠️ Formulario de gasto no encontrado en el DOM."); // ✅ nuevo
-    return; // ✅ nuevo
-  } // ✅ nuevo
+  if (form.dataset.initialized === "true") {
+    return;
+  }
 
-  console.log("✅ Listener del formulario de gasto activo."); // ✅ nuevo
+  const proveedorSelect = form.querySelector("#id_proveedor");
+  const casoSelect = form.querySelector("#id_caso");
 
-  form.addEventListener("submit", async (event) => { // ✅ nuevo
-    event.preventDefault(); // ✅ nuevo
+  await populateSelects({ proveedorSelect, casoSelect });
 
-    const formData = new FormData(form); // ✅ nuevo
-    const data = Object.fromEntries(formData.entries()); // ✅ nuevo
+  console.log("✅ Formulario de gasto inicializado correctamente.");
 
-    if (!data.fecha_pago) { // ✅ nuevo
-      alert("⚠️ Debes seleccionar una fecha de pago."); // ✅ nuevo
-      return; // ✅ nuevo
-    } // ✅ nuevo
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-    data.fecha_pago = Timestamp.fromDate(new Date(`${data.fecha_pago}T00:00:00`)); // ✅ nuevo
-    data.monto = data.monto ? Number(data.monto) : undefined; // ✅ nuevo
-    data.fecha_registro = Timestamp.now(); // ✅ nuevo
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
 
-    if (!data.id_caso?.trim()) { // ✅ nuevo
-      alert("⚠️ Debes seleccionar un caso asociado."); // ✅ nuevo
-      return; // ✅ nuevo
-    } // ✅ nuevo
+    const requiredFields = [
+      "nombre_gasto",
+      "monto",
+      "medio_pago",
+      "estado",
+      "id_proveedor",
+      "id_caso",
+      "fecha_pago",
+    ];
 
-    if (!data.id_proveedor?.trim()) { // ✅ nuevo
-      alert("⚠️ Debes seleccionar un proveedor."); // ✅ nuevo
-      return; // ✅ nuevo
-    } // ✅ nuevo
+    const missingField = requiredFields.find((field) => {
+      const value = data[field];
+      return !value || String(value).trim() === "";
+    });
 
-    Object.keys(data).forEach((key) => { // ✅ nuevo
-      if (data[key] === undefined || (typeof data[key] === "string" && data[key].trim() === "")) { // ✅ nuevo
-        delete data[key]; // ✅ nuevo
-      } // ✅ nuevo
-    }); // ✅ nuevo
+    if (missingField) {
+      alert("⚠️ Por favor completa todos los campos obligatorios.");
+      return;
+    }
 
-    try { // ✅ nuevo
-      const docRef = await addDoc(collection(db, "gastos"), data); // ✅ nuevo
-      console.log("✅ Gasto agregado con ID:", docRef.id); // ✅ nuevo
+    const montoNumber = Number(data.monto);
+    if (Number.isNaN(montoNumber)) {
+      alert("⚠️ El monto ingresado no es válido.");
+      return;
+    }
 
-      const idField = document.getElementById("id_gasto"); // ✅ nuevo
-      if (idField) idField.value = docRef.id; // ✅ nuevo
+    const proveedorId = data.id_proveedor;
+    const casoId = data.id_caso;
+    const fechaPagoInput = data.fecha_pago;
 
-      alert(`✅ Gasto agregado con éxito (ID: ${docRef.id})`); // ✅ nuevo
-      form.reset(); // ✅ nuevo
-      closeSlidePanel(); // ✅ nuevo
-    } catch (error) { // ✅ nuevo
-      console.error("❌ Error al guardar gasto:", error); // ✅ nuevo
-      alert("❌ Error al guardar el gasto. Revisa la consola para más detalles."); // ✅ nuevo
-    } // ✅ nuevo
-  }); // ✅ nuevo
-} // ✅ nuevo
+    Object.keys(data).forEach((key) => {
+      if (typeof data[key] === "string") {
+        const trimmed = data[key].trim();
+        if (trimmed === "") {
+          delete data[key];
+        } else {
+          data[key] = trimmed;
+        }
+      }
+    });
+
+    data.monto = montoNumber;
+    data.id_proveedor = doc(db, "proveedores", proveedorId);
+    data.id_caso = doc(db, "casos", casoId);
+    data.fecha_creacion = serverTimestamp();
+    data.fecha_pago = serverTimestamp();
+    data.fecha_pago_input = fechaPagoInput;
+
+    delete data.id_gasto;
+
+    try {
+      const docRef = await addDoc(collection(db, "gastos"), data);
+      console.log("✅ Gasto guardado correctamente:", docRef.id);
+
+      const idField = form.querySelector("#id_gasto");
+      if (idField) {
+        idField.value = docRef.id;
+      }
+
+      form.reset();
+      if (proveedorSelect) proveedorSelect.value = "";
+      if (casoSelect) casoSelect.value = "";
+      closeSlidePanel();
+    } catch (error) {
+      console.error("❌ Error al guardar gasto:", error);
+      alert("❌ Error al guardar gasto.");
+    }
+  });
+
+  form.dataset.initialized = "true";
+}
+
+async function populateSelects({ proveedorSelect, casoSelect }) {
+  try {
+    await Promise.all([
+      populateSelect(proveedorSelect, "proveedores", "nombre_proveedor"),
+      populateSelect(casoSelect, "casos", "nombre_caso"),
+    ]);
+  } catch (error) {
+    console.error("❌ Error al cargar opciones del formulario de gasto:", error);
+  }
+}
+
+async function populateSelect(selectElement, collectionName, labelKey) {
+  if (!selectElement) return;
+
+  const placeholder =
+    selectElement.querySelector("option[value='']")?.textContent ??
+    "Seleccionar opción";
+
+  while (selectElement.options.length > 1) {
+    selectElement.remove(1);
+  }
+
+  const snapshot = await getDocs(collection(db, collectionName));
+  if (snapshot.empty) {
+    const option = document.createElement("option");
+    option.value = "__empty__";
+    option.disabled = true;
+    option.textContent = "Sin registros disponibles";
+    selectElement.appendChild(option);
+    selectElement.disabled = true;
+    selectElement.value = "";
+    selectElement.options[0].textContent = placeholder;
+    return;
+  }
+
+  const fragment = document.createDocumentFragment();
+  snapshot.forEach((documentSnapshot) => {
+    const option = document.createElement("option");
+    option.value = documentSnapshot.id;
+    const itemData = documentSnapshot.data() ?? {};
+    option.textContent =
+      itemData[labelKey] || itemData.nombre || documentSnapshot.id;
+    fragment.appendChild(option);
+  });
+
+  selectElement.appendChild(fragment);
+  selectElement.value = "";
+  selectElement.options[0].textContent = placeholder;
+  selectElement.disabled = false;
+}
