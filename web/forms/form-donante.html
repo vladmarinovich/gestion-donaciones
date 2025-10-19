@@ -1,12 +1,12 @@
 <!-- web/forms/form-donante.html -->
 <link rel="stylesheet" href="/css/forms.css" />
 
-<div class="sp-form-header">
-  <h2>Nuevo Donante</h2>
+<div class="sp-form-header"> <!-- ✅ cambiado -->
+  <h2 class="sp-form__title">Nuevo Donante</h2> <!-- ✅ cambiado -->
 </div>
 
 <form id="form-donante" class="sp-form" novalidate>
-  <!-- ID Donante (solo lectura) -->
+  <!-- ID Donante -->
   <div class="sp-form-group">
     <label for="id_donante">ID Donante</label>
     <input type="text" id="id_donante" name="id_donante" readonly placeholder="Auto-generado" />
@@ -66,10 +66,10 @@
     <select id="canal_origen" name="canal_origen">
       <option value="">Seleccionar</option>
       <option value="web">Web</option>
-      <option value="redes">Redes</option>
+      <option value="redes">Redes Sociales</option>
       <option value="evento">Evento</option>
       <option value="referido">Referido</option>
-      <option value="ads">Ads</option>
+      <option value="ads">Publicidad (Ads)</option>
     </select>
   </div>
 
@@ -101,31 +101,7 @@
   </div>
 
   <!-- Botón Guardar -->
-  <div class="sp-form-actions">
-    <button type="submit" class="sp-btn sp-btn--primary">Guardar Donante</button>
+  <div class="sp-form-actions"> <!-- ✅ cambiado -->
+    <button type="submit" class="sp-btn sp-btn--primary">Guardar</button>
   </div>
 </form>
-
-<script type="module">
-  import { db } from "../js/firebase-config.js";
-  import { collection, addDoc, Timestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-
-  const form = document.getElementById("form-donante");
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const data = Object.fromEntries(new FormData(form).entries());
-    data.fecha_registro = Timestamp.now();
-
-    try {
-      const docRef = await addDoc(collection(db, "donantes"), data);
-      document.getElementById("id_donante").value = docRef.id;
-      alert(`✅ Donante agregado con ID: ${docRef.id}`);
-      form.reset();
-    } catch (err) {
-      console.error("❌ Error al guardar donante:", err);
-      alert("Error al guardar el donante. Revisa la consola.");
-    }
-  });
-</script>

@@ -1,6 +1,10 @@
 <!-- web/forms/form-gasto.html -->
 <link rel="stylesheet" href="/css/forms.css" />
-<form id="form-gasto" class="sp-form" novalidate>
+<div class="sp-form-header"> <!-- ✅ cambiado -->
+  <h2 class="sp-form__title">Nuevo Gasto</h2> <!-- ✅ cambiado -->
+</div> <!-- ✅ cambiado -->
+
+<form id="form-gasto" class="sp-form" novalidate> <!-- ✅ cambiado -->
   <!-- ID Gasto -->
   <div class="sp-form-group">
     <label for="id_gasto">ID Gasto</label>
@@ -76,4 +80,8 @@
     <label for="notas">Notas</label>
     <textarea id="notas" name="notas" rows="3"></textarea>
   </div>
-</form>
+
+  <div class="sp-form-actions"> <!-- ✅ cambiado -->
+    <button type="submit" class="sp-btn sp-btn--primary">Guardar Gasto</button> <!-- ✅ cambiado -->
+  </div> <!-- ✅ cambiado -->
+</form> <!-- ✅ cambiado -->

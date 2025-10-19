@@ -1,8 +1,8 @@
 <!-- web/forms/form-donacion.html -->
 <link rel="stylesheet" href="/css/forms.css" />
 
-<div class="sp-form-header">
-  <h2>Nueva Donación</h2>
+<div class="sp-form-header"> <!-- ✅ cambiado -->
+  <h2 class="sp-form__title">Nueva Donación</h2> <!-- ✅ cambiado -->
 </div>
 
 <form id="form-donacion" class="sp-form" novalidate>
@@ -92,4 +92,8 @@
     <label for="notas">Notas</label>
     <textarea id="notas" name="notas" rows="3" placeholder="Observaciones adicionales"></textarea>
   </div>
-</form>
+
+  <div class="sp-form-actions"> <!-- ✅ cambiado -->
+    <button type="submit" class="sp-btn sp-btn--primary">Guardar Donación</button> <!-- ✅ cambiado -->
+  </div> <!-- ✅ cambiado -->
+</form> <!-- ✅ cambiado -->

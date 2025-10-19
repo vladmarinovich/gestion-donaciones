@@ -14,8 +14,8 @@
   box-sizing: border-box;
   background: linear-gradient(135deg, var(--sp-primary), var(--sp-primary-dark, #2743a8));
   color: #fff;
-  width: 56px;
-  height: 56px;
+  width: 36px;
+  height: 36px;
   border-radius: 999px;
   font-size: 2rem;
   font-weight: 600;
