@@ -16,7 +16,20 @@ export function initCasoForm() {
   console.log("✅ Listener del formulario de caso activo.");
 
   form.addEventListener("submit", async (event) => {
-    event.preventDefault();
+   event.preventDefault();
+
+    const submitButton = form.querySelector('button[type="submit"]');
+    const resetButtonState = () => {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Guardar";
+      }
+    };
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Guardando...";
+    }
 
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
@@ -25,6 +38,7 @@ export function initCasoForm() {
 
     if (!data.nombre_caso || data.nombre_caso.trim() === "") {
       alert("⚠️ El nombre del caso es obligatorio.");
+      resetButtonState();
       return;
     }
 
@@ -52,6 +66,8 @@ export function initCasoForm() {
     } catch (error) {
       console.error("❌ Error al guardar caso:", error);
       alert("❌ Error al guardar el caso. Revisa la consola para más detalles.");
+    } finally {
+      resetButtonState();
     }
   });
 }

@@ -18,6 +18,19 @@ export function initProveedorForm() {
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    const submitButton = form.querySelector('button[type="submit"]');
+    const resetButtonState = () => {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Guardar";
+      }
+    };
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Guardando...";
+    }
+
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
@@ -25,6 +38,7 @@ export function initProveedorForm() {
 
     if (!data.nombre_proveedor || data.nombre_proveedor.trim() === "") {
       alert("⚠️ El nombre del proveedor es obligatorio.");
+      resetButtonState();
       return;
     }
 
@@ -52,6 +66,8 @@ export function initProveedorForm() {
     } catch (error) {
       console.error("❌ Error al guardar proveedor:", error);
       alert("❌ Error al guardar el proveedor. Revisa la consola para más detalles.");
+    } finally {
+      resetButtonState();
     }
   });
 }

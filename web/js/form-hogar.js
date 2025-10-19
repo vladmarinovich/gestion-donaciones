@@ -18,6 +18,19 @@ export function initHogarForm() {
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    const submitButton = form.querySelector('button[type="submit"]');
+    const resetButtonState = () => {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Guardar";
+      }
+    };
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Guardando...";
+    }
+
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
@@ -28,6 +41,7 @@ export function initHogarForm() {
       alert(
         "Por favor completa los campos obligatorios: nombre del hogar y responsable."
       );
+      resetButtonState();
       return;
     }
 
@@ -66,6 +80,8 @@ export function initHogarForm() {
     } catch (error) {
       console.error("Error al guardar el hogar:", error);
       alert("Ocurrió un error al guardar el hogar. Intenta nuevamente.");
+    } finally {
+      resetButtonState();
     }
   });
 }

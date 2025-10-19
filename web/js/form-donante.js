@@ -19,6 +19,19 @@ export function initDonanteForm() {
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    const submitButton = form.querySelector('button[type="submit"]');
+    const resetButtonState = () => {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Guardar";
+      }
+    };
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Guardando...";
+    }
+
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
@@ -27,6 +40,7 @@ export function initDonanteForm() {
 
     if (!data.nombre_donante || data.nombre_donante.trim() === "") {
       alert("⚠️ El nombre del donante es obligatorio.");
+      resetButtonState();
       return;
     }
 
@@ -55,6 +69,8 @@ export function initDonanteForm() {
     } catch (error) {
       console.error("❌ Error al guardar donante:", error);
       alert("❌ Error al guardar el donante. Revisa la consola para más detalles.");
+    } finally {
+      resetButtonState();
     }
   });
 }

@@ -29,6 +29,19 @@ export async function initGastoForm() {
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    const submitButton = form.querySelector('button[type="submit"]');
+    const resetButtonState = () => {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Guardar";
+      }
+    };
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Guardando...";
+    }
+
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
@@ -49,12 +62,14 @@ export async function initGastoForm() {
 
     if (missingField) {
       alert("⚠️ Por favor completa todos los campos obligatorios.");
+      resetButtonState();
       return;
     }
 
     const montoNumber = Number(data.monto);
     if (Number.isNaN(montoNumber)) {
       alert("⚠️ El monto ingresado no es válido.");
+      resetButtonState();
       return;
     }
 
@@ -98,6 +113,8 @@ export async function initGastoForm() {
     } catch (error) {
       console.error("❌ Error al guardar gasto:", error);
       alert("❌ Error al guardar gasto.");
+    } finally {
+      resetButtonState();
     }
   });
 
