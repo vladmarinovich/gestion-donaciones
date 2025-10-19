@@ -10,7 +10,6 @@ import { auth, onAuthStateChanged } from "./auth.js";
 import { SpHeader } from "../components/Header/header.js";
 import { SpSidebar } from "../components/Sidebar/sidebar.js";
 import { initFAB } from "../components/FAB/fab.js";
-import { SpSlidePanel } from "../components/SlidePanel/slide-panel.js";
 
 // Vistas
 import { renderDashboard } from "../views/dashboard.js";
@@ -66,24 +65,9 @@ function initializeApp(user) {
   const header = new SpHeader();
   header.mount(headerRoot, { title: "Dashboard" });
 
-  // Slide Panel (para formularios)
-  const slidePanel = new SpSlidePanel();
-
   // ===== 🧩 FAB =====
   requestAnimationFrame(() => {
     initFAB(); // Usa el FAB modular
-
-    // Detecta clicks en los ítems del FAB
-    document.addEventListener("fab:create", (e) => {
-      const { type } = e.detail;
-      const formPath = `./forms/form-${type}.html`;
-      const formTitle =
-        "Nuevo " + type.charAt(0).toUpperCase() + type.slice(1);
-
-      console.log(`📄 Abriendo formulario: ${formPath}`);
-
-      slidePanel.open(formPath, formTitle);
-    });
   });
 
   // Enrutamiento SPA

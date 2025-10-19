@@ -1,0 +1,140 @@
+/* ===========================
+   FORMULARIOS SLIDE PANEL
+   =========================== */
+
+.sp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 1.5rem;
+  background: #fff;
+  color: #1c1c1c;
+  height: 100%;
+  overflow-y: auto;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+/* 🧾 Encabezado del formulario */
+.sp-form-header {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e6e6e6;
+  z-index: 10;
+}
+
+.sp-form-header h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1c1c1c;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sp-form-header h2::before {
+  content: "📋";
+  font-size: 1rem;
+}
+
+/* 🧩 Grupos de campos */
+.sp-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.sp-form-group label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.sp-form-group input,
+.sp-form-group select,
+.sp-form-group textarea {
+  border: 1px solid #e3e6eb;
+  border-radius: 8px;
+  padding: 0.65rem 0.8rem;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.sp-form-group input:focus,
+.sp-form-group select:focus,
+.sp-form-group textarea:focus {
+  border-color: #2d7ff9;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(45, 127, 249, 0.15);
+}
+
+/* ✏️ Textarea */
+.sp-form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* ⚠️ Campos inválidos */
+.sp-form-group input:invalid,
+.sp-form-group select:invalid {
+  border-color: #f56c6c;
+}
+
+.sp-form-group input:invalid:focus,
+.sp-form-group select:invalid:focus {
+  box-shadow: 0 0 0 3px rgba(245, 108, 108, 0.2);
+}
+
+/* 💾 Botón de guardar */
+.sp-form button[type="submit"] {
+  align-self: flex-end;
+  background: #2d7ff9;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.4rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.sp-form button[type="submit"]:hover {
+  background: #2264d1;
+}
+
+.sp-form button[type="submit"]::before {
+  content: "💾";
+  font-size: 1rem;
+}
+
+/* 🌈 Animación al mostrar formulario */
+@keyframes slideInForm {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.sp-form {
+  animation: slideInForm 0.3s ease forwards;
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .sp-form {
+    padding: 1rem;
+  }
+  .sp-form-header h2 {
+    font-size: 1rem;
+  }
+}

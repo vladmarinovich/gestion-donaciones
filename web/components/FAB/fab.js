@@ -1,4 +1,6 @@
 // /web/components/FAB/fab.js
+import { openSlidePanel } from "../SlidePanel/slide-panel.js";
+
 export function initFAB() {
   console.log("✅ FAB inicializado correctamente");
 
@@ -10,32 +12,44 @@ export function initFAB() {
   }
 
   // Clona el contenido
-  const fabEl = template.content.cloneNode(true);
-  document.body.appendChild(fabEl);
+  const fragment = template.content.cloneNode(true);
+  const fabRoot = fragment.querySelector(".sp-fab");
+  document.body.appendChild(fragment);
+
+  if (!fabRoot) {
+    console.error("❌ No se pudo inicializar el FAB: plantilla inválida.");
+    return;
+  }
 
   // Referencias
-  const fabButton = document.querySelector(".sp-fab__button");
-  const fabMenu = document.querySelector(".sp-fab__menu");
+  const fabButton = fabRoot.querySelector(".sp-fab__button");
+  const fabMenu = fabRoot.querySelector(".sp-fab__menu");
 
   // Toggle del menú
-  fabButton.addEventListener("click", () => {
-    fabMenu.classList.toggle("is-active");
-  });
+  if (fabButton && fabMenu) {
+    fabButton.addEventListener("click", () => {
+      fabMenu.classList.toggle("is-active");
+    });
+  }
 
   // Manejar clicks en los ítems del menú
-  fabMenu.querySelectorAll("li").forEach((item) => {
-    item.addEventListener("click", () => {
-      const type = item.dataset.type;
-      console.log(`🧩 FAB: clic en ${type}`);
+  const formButtons = fabRoot.querySelectorAll("[data-form]");
+  formButtons.forEach((btn) => {
+    btn.addEventListener("click", async (event) => {
+      const formType = event.currentTarget.dataset.form;
+      if (!formType) {
+        console.warn("⚠️ No se encontró el tipo de formulario en el elemento seleccionado.");
+        return;
+      }
 
-      // Emitir evento personalizado
-      const event = new CustomEvent("fab:create", {
-        detail: { type },
-      });
-      document.dispatchEvent(event);
+      // Cierra el menú antes de abrir el panel
+      fabMenu?.classList.remove("is-active");
 
-      // Cierra el menú
-      fabMenu.classList.remove("is-active");
+      try {
+        await openSlidePanel(formType);
+      } catch (error) {
+        console.error(`❌ No se pudo abrir el panel deslizante para ${formType}:`, error);
+      }
     });
   });
 }

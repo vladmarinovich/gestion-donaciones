@@ -1,69 +1,57 @@
-/* Overlay semitransparente */
-.sp-slide-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 99;
-}
-
-.sp-slide-overlay--visible {
-  opacity: 1;
-}
-
-/* Panel lateral */
 .sp-slide-panel {
   position: fixed;
   top: 0;
-  right: -40%;
-  width: 40%;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 2000;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sp-slide-panel.is-active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.sp-slide-panel__overlay {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.sp-slide-panel__content {
+  position: relative;
+  width: 420px;
+  max-width: 100%;
   height: 100%;
   background: #fff;
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
-  display: flex;
-  flex-direction: column;
-  transform: translateX(0);
-  transition: right 0.3s ease;
-  z-index: 100;
-}
-
-.sp-slide-panel--visible {
-  right: 0;
-}
-
-/* Header */
-.sp-slide-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid #e3e6eb;
-  background: var(--sp-bg, #fafafa);
-}
-
-.sp-slide-title {
-  margin: 0;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--sp-ink, #1c1c1c);
-}
-
-.sp-slide-close {
-  background: none;
-  border: none;
-  font-size: 1.8rem;
-  cursor: pointer;
-  color: #666;
-}
-
-.sp-slide-close:hover {
-  color: var(--sp-primary, #2d7ff9);
-}
-
-/* Contenido */
-.sp-slide-body {
-  flex: 1;
-  overflow-y: auto;
+  border-radius: 12px 0 0 12px;
   padding: 1.5rem;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+}
+
+.sp-slide-panel.is-active .sp-slide-panel__content {
+  transform: translateX(0);
+}
+
+.sp-slide-panel__close {
+  border: none;
+  background: none;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+}
+
+.sp-slide-panel__error {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #b91c1c;
 }

@@ -12,10 +12,11 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    // Para SPAs, redirige todas las URLs que no son archivos al index.html
     "rewrites": [
       {
-        "source": "**",
-        "destination": "/index.html"
+        "source": "!{/js/**,/css/**,/assets/**,/components/**,**/*.html,**/*.png,**/*.svg,**/*.ico}",
+        "destination": "/index.html" 
       }
     ]
   }
