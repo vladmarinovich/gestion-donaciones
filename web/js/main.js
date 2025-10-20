@@ -11,30 +11,24 @@ import { SpHeader } from "../components/Header/header.js";
 import { SpSidebar } from "../components/Sidebar/sidebar.js";
 import { initFAB } from "../components/FAB/fab.js";
 
-// Vistas
-import { renderDashboard } from "../views/dashboard.js";
-import { renderDonaciones } from "../views/donaciones.js";
-import { renderDonantes } from "../views/donantes.js";
-import { renderGastos } from "../views/gastos.js";
-import { renderHogares } from "../views/hogares.js";
-import { renderProveedores } from "../views/proveedores.js";
-import { loadCasosView } from "./views.js";
+// Carga dinámica de vistas
+import { loadView as loadDynamicView } from "./views.js";
 
 // ===== 🔹 MAPA DE RUTAS =====
 const routes = {
-  "#/dashboard": renderDashboard,
-  "#/donaciones": renderDonaciones,
-  "#/donantes": renderDonantes,
-  "#/gastos": renderGastos,
-  "#/hogares": renderHogares,
-  "#/proveedores": renderProveedores,
-  "#/casos": loadCasosView,
+  "#/dashboard": (container) => loadDynamicView("dashboard", container),
+  "#/donaciones": (container) => loadDynamicView("donaciones", container),
+  "#/donantes": (container) => loadDynamicView("donantes", container),
+  "#/gastos": (container) => loadDynamicView("gastos", container),
+  "#/hogares": (container) => loadDynamicView("hogares", container),
+  "#/proveedores": (container) => loadDynamicView("proveedores", container),
+  "#/casos": (container) => loadDynamicView("casos", container),
 };
 
 // ===================================================
 // 🔹 FUNCIÓN DE ENRUTAMIENTO SPA
 // ===================================================
-function loadView() {
+function loadRoute() {
   const hash = window.location.hash || "#/dashboard";
   const view = routes[hash];
   const container = document.getElementById("app");
@@ -73,8 +67,8 @@ function initializeApp(user) {
   });
 
   // Enrutamiento SPA
-  window.addEventListener("hashchange", loadView);
-  loadView();
+  window.addEventListener("hashchange", loadRoute);
+  loadRoute();
 }
 
 // ===================================================
