@@ -193,3 +193,247 @@ a {
   font-size: 0.95rem;
   padding: var(--sp-space-4);
 }
+
+/* ==============================
+   Dashboard specific styling
+   ============================== */
+.sp-dashboard-view {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: var(--sp-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-space-5);
+}
+
+.sp-dashboard-view .sp-view-header {
+  background: #fff;
+  border-radius: var(--sp-radius-lg);
+  box-shadow: var(--sp-shadow-md);
+  padding: var(--sp-space-4);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-space-3);
+}
+
+.sp-dashboard-view .sp-view-title {
+  margin: 0;
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  font-weight: 700;
+  color: var(--sp-ink);
+}
+
+.sp-dashboard-view .sp-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-space-3);
+}
+
+.sp-dashboard-view .sp-section > h2 {
+  margin: 0;
+  font-size: clamp(1.3rem, 1.1rem + 0.6vw, 1.7rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: rgba(17, 24, 39, 0.95);
+}
+
+.sp-dashboard-view .sp-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--sp-space-4);
+}
+
+.sp-dashboard-view .sp-card {
+  position: relative;
+  background: #fff;
+  border-radius: var(--sp-radius-lg);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  padding: calc(var(--sp-space-4) + 4px) var(--sp-space-4) var(--sp-space-4);
+  box-shadow: 0 18px 40px -24px rgba(15, 23, 42, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-space-2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  --sp-card-accent: var(--sp-primary);
+}
+
+.sp-dashboard-view .sp-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid transparent;
+  pointer-events: none;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(135deg, var(--sp-card-accent), rgba(255, 255, 255, 0)) border-box;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.sp-dashboard-view .sp-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  background: var(--sp-card-accent);
+}
+
+.sp-dashboard-view .sp-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px -20px rgba(15, 23, 42, 0.35);
+}
+
+.sp-dashboard-view .sp-card:hover::after {
+  opacity: 1;
+}
+
+.sp-dashboard-view .sp-card h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(55, 65, 81, 0.85);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.sp-dashboard-view .sp-card__value {
+  margin: 0;
+  font-size: clamp(2.1rem, 1.6rem + 1.5vw, 2.8rem);
+  font-weight: 700;
+  color: rgba(15, 23, 42, 0.95);
+  line-height: 1.1;
+}
+
+.sp-dashboard-view .sp-card--green {
+  --sp-card-accent: #22c55e;
+}
+
+.sp-dashboard-view .sp-card--red {
+  --sp-card-accent: #ef4444;
+}
+
+.sp-dashboard-view .sp-card--blue {
+  --sp-card-accent: #3b82f6;
+}
+
+.sp-dashboard-view .sp-card--yellow {
+  --sp-card-accent: #f59e0b;
+}
+
+.sp-dashboard-view .sp-section:last-of-type {
+  overflow-x: auto;
+}
+
+.sp-dashboard-view .sp-section:last-of-type .sp-table {
+  min-width: 640px;
+}
+
+.sp-dashboard-view .sp-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: var(--sp-radius-lg);
+  box-shadow: var(--sp-shadow-md);
+  overflow: hidden;
+}
+
+.sp-dashboard-view .sp-table thead th {
+  position: relative;
+  padding: var(--sp-space-3) var(--sp-space-4);
+  background: #1d4ed8;
+  color: transparent;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sp-dashboard-view .sp-table thead th:first-child {
+  border-top-left-radius: var(--sp-radius-lg);
+}
+
+.sp-dashboard-view .sp-table thead th:last-child {
+  border-top-right-radius: var(--sp-radius-lg);
+}
+
+.sp-dashboard-view .sp-table thead th:nth-child(1)::after {
+  content: "Nombre del Donante";
+}
+
+.sp-dashboard-view .sp-table thead th:nth-child(2)::after {
+  content: "Monto Total Donado";
+}
+
+.sp-dashboard-view .sp-table thead th:nth-child(3)::after {
+  content: "Número de Donaciones";
+}
+
+.sp-dashboard-view .sp-table thead th:nth-child(4)::after {
+  content: "Promedio de Donación";
+}
+
+.sp-dashboard-view .sp-table thead th::after {
+  color: #fff;
+  font-weight: 600;
+  display: block;
+}
+
+.sp-dashboard-view .sp-table tbody td {
+  padding: calc(var(--sp-space-3) - 2px) var(--sp-space-4);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+  font-size: 1rem;
+  color: rgba(30, 41, 59, 0.95);
+}
+
+.sp-dashboard-view .sp-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.sp-dashboard-view .sp-table tbody tr:hover td {
+  background: rgba(45, 127, 249, 0.08);
+}
+
+.sp-dashboard-view .sp-table tbody td[colspan] {
+  text-align: center;
+  font-weight: 500;
+  color: rgba(55, 65, 81, 0.8);
+}
+
+.sp-dashboard-view .sp-table thead + tbody tr:first-child td:first-child {
+  border-top-left-radius: 0;
+}
+
+.sp-dashboard-view .sp-table thead + tbody tr:first-child td:last-child {
+  border-top-right-radius: 0;
+}
+
+@media (max-width: 1024px) {
+  .sp-dashboard-view {
+    padding-bottom: var(--sp-space-5);
+  }
+
+  .sp-dashboard-view .sp-view-header {
+    padding: var(--sp-space-3);
+  }
+}
+
+@media (max-width: 768px) {
+  .sp-dashboard-view {
+    gap: var(--sp-space-4);
+  }
+
+  .sp-dashboard-view .sp-view-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sp-dashboard-view .sp-section:last-of-type .sp-table {
+    min-width: 520px;
+  }
+}

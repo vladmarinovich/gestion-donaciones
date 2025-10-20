@@ -18,6 +18,7 @@ import { renderDonantes } from "../views/donantes.js";
 import { renderGastos } from "../views/gastos.js";
 import { renderHogares } from "../views/hogares.js";
 import { renderProveedores } from "../views/proveedores.js";
+import { loadCasosView } from "./views.js";
 
 // ===== 🔹 MAPA DE RUTAS =====
 const routes = {
@@ -27,6 +28,7 @@ const routes = {
   "#/gastos": renderGastos,
   "#/hogares": renderHogares,
   "#/proveedores": renderProveedores,
+  "#/casos": loadCasosView,
 };
 
 // ===================================================

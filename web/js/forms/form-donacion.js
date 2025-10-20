@@ -1,157 +1,169 @@
-import { db } from "../firebase-config.js";
+// web/js/forms/form-donacion.js
+import { db } from "../db.js";
 import {
-  collection,
   addDoc,
+  collection,
   getDocs,
+  orderBy,
+  query,
   serverTimestamp,
-  doc,
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 import { closeSlidePanel } from "../../components/SlidePanel/slide-panel.js";
 
-export async function initDonacionForm() {
-  const form = document.querySelector("#form-donacion");
+let isSubmittingDonacion = false;
+
+export function initDonacionForm() {
+  const form = document.getElementById("form-donacion");
   if (!form) {
-    console.warn("⚠️ Formulario de donación no encontrado en el DOM.");
+    console.warn("⚠️ No se encontró el formulario de donación en el DOM.");
     return;
   }
 
-  const donanteSelect = form.querySelector("#id_donante");
-  const casoSelect = form.querySelector("#id_caso");
+  if (form.dataset.initialized === "true") return;
+  form.dataset.initialized = "true";
 
-  await populateSelects({ donanteSelect, casoSelect });
+  const submitButton = form.querySelector('button[type="submit"]');
+  const idField = form.querySelector("#id_donacion");
+  if (idField) idField.value = "";
 
-  console.log("✅ Formulario de donación inicializado correctamente.");
+  populateDonantes(form.querySelector("#id_donante"));
+  populateCasos(form.querySelector("#id_caso"));
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (isSubmittingDonacion) return;
 
-    const submitButton = form.querySelector('button[type="submit"]');
-    const resetButtonState = () => {
-      if (submitButton) {
-        submitButton.disabled = false;
-        submitButton.textContent = "Guardar";
-      }
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const montoRaw = form.monto?.value.trim() || "";
+    const monto = Number.parseFloat(montoRaw);
+    if (Number.isNaN(monto) || monto <= 0) {
+      alert("⚠️ El monto debe ser un número mayor que cero.");
+      return;
+    }
+
+    const idDonante = form.id_donante?.value || "";
+    const idCaso = form.id_caso?.value || "";
+    const metodoPago = form.medio_pago?.value || "";
+    const fechaDonacion = form.fecha_donacion?.value || "";
+
+    if (!idDonante || !idCaso || !metodoPago || !fechaDonacion) {
+      alert("⚠️ Completa todos los campos obligatorios de la donación.");
+      return;
+    }
+
+    const restoreButton = prepareSubmitState(submitButton);
+    isSubmittingDonacion = true;
+
+    const payload = {
+      monto,
+      id_donante: idDonante,
+      id_caso: idCaso,
+      metodo_pago: metodoPago,
+      medio_pago: metodoPago,
+      fecha_donacion: fechaDonacion,
+      estado: form.estado?.value || "pendiente",
+      comprobante_url: form.comprobante_url?.value.trim() || null,
+      notas: form.notas?.value.trim() || null,
+      fecha_registro: serverTimestamp(),
     };
 
-    if (submitButton) {
-      submitButton.disabled = true;
-      submitButton.textContent = "Guardando...";
-    }
-
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-
-    const medioPagoField = formData.has("medio_pago") ? "medio_pago" : "metodo_pago";
-
-    const requiredFields = ["monto", medioPagoField, "id_donante", "id_caso", "fecha_donacion"];
-    const missingField = requiredFields.find((field) => {
-      const value = data[field];
-      return !value || String(value).trim() === "";
-    });
-
-    if (missingField) {
-      alert("⚠️ Por favor completa todos los campos obligatorios.");
-      resetButtonState();
-      return;
-    }
-
-    const montoNumber = Number(data.monto);
-    if (Number.isNaN(montoNumber)) {
-      alert("⚠️ El monto ingresado no es válido.");
-      resetButtonState();
-      return;
-    }
-
-    const donanteId = data.id_donante;
-    const casoId = data.id_caso;
-
-    Object.keys(data).forEach((key) => {
-      if (typeof data[key] === "string") {
-        const trimmed = data[key].trim();
-        if (trimmed === "") {
-          delete data[key];
-        } else {
-          data[key] = trimmed;
-        }
-      }
-    });
-
-    data.monto = montoNumber;
-    data.id_donante = doc(db, "donantes", donanteId);
-    data.id_caso = doc(db, "casos", casoId);
-    data.fecha_creacion = serverTimestamp();
-    data.fecha_donacion = serverTimestamp();
-
-    delete data.id_donacion;
+    sanitizePayload(payload);
+    console.log("💝 Guardando donación en Firestore:", payload);
 
     try {
-      const docRef = await addDoc(collection(db, "donaciones"), data);
-      console.log("✅ Donación agregada con ID:", docRef.id);
-      alert("✅ Donación registrada correctamente.");
-
+      const docRef = await addDoc(collection(db, "donaciones"), payload);
+      console.log(`✅ Donación registrada con ID: ${docRef.id}`);
+      if (idField) idField.value = docRef.id;
+      alert("✅ Registro guardado correctamente");
       form.reset();
-      if (donanteSelect) donanteSelect.value = "";
-      if (casoSelect) casoSelect.value = "";
-      const idField = form.querySelector("#id_donacion");
-      if (idField) {
-        idField.value = docRef.id;
-      }
-      closeSlidePanel();
+      await closeSlidePanel();
     } catch (error) {
-      console.error("❌ Error al guardar la donación:", error);
-      alert("❌ Error al guardar la donación.");
+      console.error("❌ Error al guardar donación:", error);
+      alert("❌ No se pudo guardar la donación. Intenta nuevamente.");
     } finally {
-      resetButtonState();
+      restoreButton();
+      isSubmittingDonacion = false;
     }
   });
 }
 
-async function populateSelects({ donanteSelect, casoSelect }) {
+async function populateDonantes(select) {
+  if (!select) return;
+  select.disabled = true;
+  select.innerHTML = '<option value="">Cargando donantes...</option>';
+
   try {
-    await Promise.all([
-      populateSelect(donanteSelect, "donantes", "nombre_donante"),
-      populateSelect(casoSelect, "casos", "nombre_caso"),
-    ]);
+    const snapshot = await getDocs(query(collection(db, "donantes"), orderBy("nombre_donante", "asc")));
+    const options = ['<option value="">Seleccionar donante</option>'];
+
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      options.push(
+        `<option value="${docSnap.id}">${data.nombre_donante || "Donante sin nombre"}</option>`
+      );
+    });
+
+    select.innerHTML = options.join("");
   } catch (error) {
-    console.error("❌ Error al cargar opciones del formulario de donación:", error);
+    console.error("❌ Error al cargar donantes:", error);
+    select.innerHTML = '<option value="">No se pudieron cargar</option>';
+  } finally {
+    select.disabled = false;
   }
 }
 
-async function populateSelect(selectElement, collectionName, labelKey) {
-  if (!selectElement) return;
+async function populateCasos(select) {
+  if (!select) return;
+  select.disabled = true;
+  select.innerHTML = '<option value="">Cargando casos...</option>';
 
-  const placeholderText =
-    selectElement.querySelector("option[value='']")?.textContent ??
-    "Seleccionar opción";
+  try {
+    const snapshot = await getDocs(query(collection(db, "casos"), orderBy("nombre_caso", "asc")));
+    const options = ['<option value="">Seleccionar caso</option>'];
 
-  while (selectElement.options.length > 1) {
-    selectElement.remove(1);
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      options.push(
+        `<option value="${docSnap.id}">${data.nombre_caso || "Caso sin nombre"}</option>`
+      );
+    });
+
+    select.innerHTML = options.join("");
+  } catch (error) {
+    console.error("❌ Error al cargar casos:", error);
+    select.innerHTML = '<option value="">No se pudieron cargar</option>';
+  } finally {
+    select.disabled = false;
   }
+}
 
-  const snapshot = await getDocs(collection(db, collectionName));
-  if (snapshot.empty) {
-    const option = document.createElement("option");
-    option.value = "__empty__";
-    option.disabled = true;
-    option.textContent = "Sin registros disponibles";
-    selectElement.appendChild(option);
-    selectElement.disabled = true;
-    selectElement.value = "";
-    selectElement.options[0].textContent = placeholderText;
-    return;
-  }
+function prepareSubmitState(button) {
+  if (!button) return () => {};
+  const originalText = button.textContent;
+  button.disabled = true;
+  button.textContent = "Guardando...";
+  return () => {
+    button.disabled = false;
+    button.textContent = originalText || "Guardar";
+  };
+}
 
-  const fragment = document.createDocumentFragment();
-  snapshot.forEach((documentSnapshot) => {
-    const option = document.createElement("option");
-    option.value = documentSnapshot.id;
-    const data = documentSnapshot.data() ?? {};
-    option.textContent = data[labelKey] || data.nombre || documentSnapshot.id;
-    fragment.appendChild(option);
+function sanitizePayload(payload) {
+  Object.keys(payload).forEach((key) => {
+    const value = payload[key];
+    if (typeof value === "string") {
+      const trimmed = value.trim();
+      if (trimmed === "") {
+        delete payload[key];
+      } else {
+        payload[key] = trimmed;
+      }
+    } else if (value === null || value === undefined) {
+      delete payload[key];
+    }
   });
-
-  selectElement.appendChild(fragment);
-  selectElement.value = "";
-  selectElement.options[0].textContent = placeholderText;
-  selectElement.disabled = false;
 }
